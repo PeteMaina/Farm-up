@@ -3,9 +3,6 @@ import {
   Box,
   Typography,
   Grid,
-  Card,
-  CardContent,
-  Avatar,
   Stack,
   Fade,
   FormControl,
@@ -13,14 +10,19 @@ import {
   Select,
   MenuItem,
   TextField,
+  Divider,
 } from '@mui/material';
-import {
-  WbSunny,
-  Opacity,
-  Grass,
-  Brightness6,
-} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+
+// Import all dashboard widgets
+import WeatherWidget from './dashboard/WeatherWidget';
+import SensorGrid from './dashboard/SensorGrid';
+import EquipmentStatus from './dashboard/EquipmentStatus';
+import FinancialChart from './dashboard/FinancialChart';
+import MarketPrices from './dashboard/MarketPrices';
+import LaborManagement from './dashboard/LaborManagement';
+import AlertsActivity from './dashboard/AlertsActivity';
+import QuickActions from './dashboard/QuickActions';
 
 const Dashboard = ({
   location,
@@ -29,9 +31,8 @@ const Dashboard = ({
   onSetLocation,
 }) => {
   const navigate = useNavigate();
-  // Removed unused state: mobileOpen, menuAnchor, etc.
 
-  // Keep relevant state
+  // Real-time sensor data state
   const [realTimeData, setRealTimeData] = useState({
     temperature: 24,
     humidity: 65,
@@ -48,8 +49,6 @@ const Dashboard = ({
         const response = await fetch(`http://localhost:5000/api/weather?lat=${lat}&lon=${lon}`);
         if (response.ok) {
           const data = await response.json();
-          // setWeatherData(data); // Unused local state?
-          // Update realTimeData with actual weather data
           setRealTimeData(prev => ({
             ...prev,
             temperature: data.temperature,
@@ -69,8 +68,8 @@ const Dashboard = ({
     const interval = setInterval(() => {
       setRealTimeData(prev => ({
         ...prev,
-        soilMoisture: prev.soilMoisture + (Math.random() - 0.5) * 3,
-        lightLevel: prev.lightLevel + (Math.random() - 0.5) * 4
+        soilMoisture: Math.max(0, Math.min(100, prev.soilMoisture + (Math.random() - 0.5) * 3)),
+        lightLevel: Math.max(0, Math.min(100, prev.lightLevel + (Math.random() - 0.5) * 4))
       }));
     }, 5000);
     return () => clearInterval(interval);
@@ -92,10 +91,10 @@ const Dashboard = ({
           <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" alignItems={{ xs: 'start', md: 'center' }} spacing={2}>
             <Box>
               <Typography variant="h4" gutterBottom sx={{ fontWeight: 800, color: 'primary.main' }}>
-                Welcome back, Farmer!
+                Farm Management Dashboard
               </Typography>
               <Typography variant="body1" color="text.secondary">
-                Here's what's happening on your farm today. Last updated: {new Date().toLocaleTimeString()}
+                Comprehensive overview of your agricultural operations • Last updated: {new Date().toLocaleTimeString()}
               </Typography>
             </Box>
 
@@ -134,38 +133,74 @@ const Dashboard = ({
         </Box>
       </Fade>
 
-      {/* Real-time Environmental Data */}
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        {[
-          { label: 'Temperature', value: `${realTimeData.temperature.toFixed(1)}°C`, icon: <WbSunny />, color: 'warning' },
-          { label: 'Humidity', value: `${realTimeData.humidity.toFixed(0)}%`, icon: <Opacity />, color: 'info' },
-          { label: 'Soil Moisture', value: `${realTimeData.soilMoisture.toFixed(0)}%`, icon: <Grass />, color: 'success' },
-          { label: 'Light Level', value: `${realTimeData.lightLevel.toFixed(0)}%`, icon: <Brightness6 />, color: 'primary' }
-        ].map((sensor, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
-            <Card sx={{ height: '100%' }}>
-              <CardContent>
-                <Stack direction="row" alignItems="center" spacing={2} mb={2}>
-                  <Avatar sx={{ bgcolor: `${sensor.color}.light`, color: `${sensor.color}.main` }}>
-                    {sensor.icon}
-                  </Avatar>
-                  <Typography variant="subtitle1" fontWeight={600} color="text.secondary">{sensor.label}</Typography>
-                </Stack>
-                <Typography variant="h3" fontWeight={700} color="text.primary">
-                  {sensor.value}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+      {/* Main Dashboard Grid */}
+      <Stack spacing={4}>
+        {/* Section 1: Quick Actions */}
+        <Fade in timeout={1200}>
+          <Box>
+            <QuickActions />
+          </Box>
+        </Fade>
 
-      {/* 
-          Additional Dashboard Widgets could go here. 
-          The original file had many unused variables suggesting more content was planned 
-          but not rendered in the main return block I saw.
-          For now, this cleans up the existing functional parts.
-      */}
+        {/* Section 2: Live Sensor Grid */}
+        <Fade in timeout={1400}>
+          <Box>
+            <Typography variant="h5" fontWeight={700} gutterBottom sx={{ mb: 2 }}>
+              Live IoT Sensor Data
+            </Typography>
+            <SensorGrid realTimeData={realTimeData} />
+          </Box>
+        </Fade>
+
+        <Divider />
+
+        {/* Section 3: Weather & Alerts (Two Column) */}
+        <Fade in timeout={1600}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={8}>
+              <WeatherWidget location={location} />
+            </Grid>
+            <Grid item xs={12} lg={4}>
+              <AlertsActivity />
+            </Grid>
+          </Grid>
+        </Fade>
+
+        <Divider />
+
+        {/* Section 4: Market Prices */}
+        <Fade in timeout={1800}>
+          <Box>
+            <MarketPrices cropType={cropType} />
+          </Box>
+        </Fade>
+
+        <Divider />
+
+        {/* Section 5: Operations Control (Two Column) */}
+        <Fade in timeout={2000}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={6}>
+              <EquipmentStatus />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <LaborManagement />
+            </Grid>
+          </Grid>
+        </Fade>
+
+        <Divider />
+
+        {/* Section 6: Financial Overview */}
+        <Fade in timeout={2200}>
+          <Box>
+            <FinancialChart />
+          </Box>
+        </Fade>
+
+        {/* Bottom Spacer */}
+        <Box sx={{ pb: 4 }} />
+      </Stack>
     </Box>
   );
 };
