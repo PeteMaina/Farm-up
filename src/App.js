@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import theme from './theme';
+import createAppTheme from './theme';
 import LandingPage from './components/LandingPage';
 import AuthPage from './components/AuthPage';
 import Layout from './components/Layout';
@@ -30,6 +30,19 @@ function App() {
   const [userLocation, setUserLocation] = useState('');
   const [locationDetails, setLocationDetails] = useState(null);
   const [cropType, setCropType] = useState('corn');
+  const [themeMode, setThemeMode] = useState(() => {
+    // Load theme preference from localStorage or default to 'light'
+    return localStorage.getItem('themeMode') || 'light';
+  });
+
+  // Create theme based on current mode
+  const theme = React.useMemo(() => createAppTheme(themeMode), [themeMode]);
+
+  // Handle theme toggle
+  const handleThemeModeChange = (newMode) => {
+    setThemeMode(newMode);
+    localStorage.setItem('themeMode', newMode);
+  };
 
   useEffect(() => {
     async function fetchLocation() {
@@ -91,6 +104,8 @@ function App() {
                   onSetLocation={handleSetUserLocation}
                   cropType={cropType}
                   onSetCropType={handleSetCropType}
+                  themeMode={themeMode}
+                  onThemeModeChange={handleThemeModeChange}
                 />
               </Layout>
             }

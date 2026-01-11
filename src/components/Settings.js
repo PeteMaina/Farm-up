@@ -51,7 +51,7 @@ import {
   Security
 } from '@mui/icons-material';
 
-const Settings = () => {
+const Settings = ({ themeMode, onThemeModeChange }) => {
   const [tabValue, setTabValue] = useState(0);
   const [loading, setLoading] = useState(false);
   const [notifications, setNotifications] = useState({
@@ -59,7 +59,6 @@ const Settings = () => {
     push: false,
     sms: true,
   });
-  const [themeMode, setThemeMode] = useState('light');
   const [language, setLanguage] = useState('en');
 
   const handleTabChange = (event, newValue) => {
@@ -211,10 +210,13 @@ const Settings = () => {
                 <Stack spacing={3}>
                   <FormControl fullWidth>
                     <InputLabel>Theme Mode</InputLabel>
-                    <Select value={themeMode} label="Theme Mode" onChange={(e) => setThemeMode(e.target.value)}>
+                    <Select
+                      value={themeMode || 'light'}
+                      label="Theme Mode"
+                      onChange={(e) => onThemeModeChange(e.target.value)}
+                    >
                       <MenuItem value="light">Light</MenuItem>
                       <MenuItem value="dark">Dark</MenuItem>
-                      <MenuItem value="auto">System Default</MenuItem>
                     </Select>
                   </FormControl>
                   <FormControl fullWidth>
