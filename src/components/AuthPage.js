@@ -101,7 +101,9 @@ const AuthPage = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: `linear-gradient(135deg, ${theme.palette.background.default} 0%, #E8F5E9 100%)`, // Matching LandingPage
+        background: theme.palette.mode === 'dark'
+          ? `linear-gradient(135deg, ${theme.palette.background.default} 0%, #1B301B 100%)`
+          : `linear-gradient(135deg, ${theme.palette.background.default} 0%, #E8F5E9 100%)`,
         py: 4,
       }}
     >
@@ -111,7 +113,7 @@ const AuthPage = () => {
           sx={{
             p: { xs: 3, sm: 5 },
             borderRadius: 4,
-            background: 'rgba(255,255,255,0.95)',
+            background: theme.palette.mode === 'dark' ? 'rgba(30,30,30,0.9)' : 'rgba(255,255,255,0.9)',
             backdropFilter: 'blur(10px)',
           }}
         >

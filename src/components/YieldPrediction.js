@@ -66,6 +66,7 @@ const YieldPrediction = ({ location, cropType = 'corn' }) => {
 
   useEffect(() => {
     const fetchWeather = async () => {
+      setLoading(true);
       try {
         const lat = location?.lat || 40.7128;
         const lon = location?.lon || -74.0060;
@@ -74,6 +75,8 @@ const YieldPrediction = ({ location, cropType = 'corn' }) => {
         setWeatherData(data);
       } catch (error) {
         console.error('Error fetching weather data:', error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchWeather();
@@ -173,7 +176,18 @@ const YieldPrediction = ({ location, cropType = 'corn' }) => {
         </Tabs>
       </Paper>
 
-      {tabValue === 0 && (
+      {loading ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+          <CircularProgress />
+        </Box>
+      ) : !weatherData ? (
+        <Alert severity="warning" sx={{ mb: 4 }}>
+          <AlertTitle>Weather Data Unavailable</AlertTitle>
+          We're unable to fetch real-time weather data. Showing general yield estimates instead.
+        </Alert>
+      ) : null}
+
+      {tabValue === 0 && !loading && (
         <Grid container spacing={3}>
           {yieldData.slice(0, 2).map((crop, index) => (
             <Grid item xs={12} md={6} key={crop.crop}>

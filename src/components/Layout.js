@@ -237,7 +237,7 @@ const Layout = ({ children, activeItem }) => {
           variant="permanent"
           sx={{
             display: { xs: 'none', md: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderRight: '1px solid rgba(0,0,0,0.08)' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, borderRight: (theme) => `1px solid ${theme.palette.divider}` },
           }}
           open
         >

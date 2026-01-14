@@ -102,7 +102,7 @@ const LandingPage = () => {
     <Box>
       {/* Navigation */}
       <HideOnScroll>
-        <AppBar position="fixed" color="inherit" elevation={0} sx={{ borderBottom: '1px solid', borderColor: 'divider', bgcolor: 'rgba(255,255,255,0.9)' }}>
+        <AppBar position="fixed" color="inherit" elevation={0} sx={{ borderBottom: '1px solid', borderColor: 'divider', bgcolor: theme.palette.mode === 'dark' ? 'rgba(18,18,18,0.9)' : 'rgba(255,255,255,0.9)', backdropFilter: 'blur(8px)' }}>
           <Toolbar>
             <Typography variant="h5" sx={{ flexGrow: 1, color: 'primary.main', fontWeight: 800, letterSpacing: '-0.5px' }}>
               AgriAI

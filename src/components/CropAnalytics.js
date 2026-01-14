@@ -136,7 +136,7 @@ const CropAnalytics = () => {
             <Card sx={{ height: '100%' }}>
               <CardHeader
                 title="Yield Trends"
-                avatar={<Avatar bgcolor="primary.light"><TrendingUp color="primary" /></Avatar>}
+                avatar={<Avatar sx={{ bgcolor: 'primary.light' }}><TrendingUp color="primary" /></Avatar>}
                 action={
                   <IconButton size="small">
                     <Info />
@@ -168,7 +168,7 @@ const CropAnalytics = () => {
             <Card sx={{ height: '100%' }}>
               <CardHeader
                 title="Key Indicators"
-                avatar={<Avatar bgcolor="secondary.light"><Assessment color="secondary" /></Avatar>}
+                avatar={<Avatar sx={{ bgcolor: 'secondary.light' }}><Assessment color="secondary" /></Avatar>}
               />
               <Divider />
               <CardContent>
@@ -195,7 +195,7 @@ const CropAnalytics = () => {
             <Card>
               <CardHeader
                 title="Crop Performance Summary"
-                avatar={<Avatar bgcolor="warning.light"><BarChart color="warning" /></Avatar>}
+                avatar={<Avatar sx={{ bgcolor: 'warning.light' }}><BarChart color="warning" /></Avatar>}
               />
               <Divider />
               <CardContent sx={{ p: 0 }}>

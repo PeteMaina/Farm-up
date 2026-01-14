@@ -65,17 +65,17 @@ const Sidebar = ({ activeItem }) => {
     { text: 'IoT Sensors', icon: <Smartphone />, badge: null },
     { text: 'Field Mapping', icon: <Map />, badge: null },
     { text: 'Sustainability', icon: <Nature />, badge: null },
-    { text: 'Settings', icon: <Settings />, badge: null },
-    { text: 'Help & Support', icon: <Help />, badge: null },
+    { text: 'Settings', icon: <Settings />, badge: null, path: '/settings' },
+    { text: 'Help & Support', icon: <Help />, badge: null, path: '/help-support' },
   ];
 
   return (
-    <Box sx={{ height: '100%', background: 'linear-gradient(180deg, #E8F5E8 0%, #F1F8E9 100%)' }}>
+    <Box sx={{ height: '100%', bgcolor: 'background.paper' }}>
       <Box sx={{ p: 3, textAlign: 'center', borderBottom: 1, borderColor: 'divider' }}>
         <Avatar sx={{ bgcolor: 'primary.main', width: 60, height: 60, mx: 'auto', mb: 2 }}>
           <Agriculture sx={{ fontSize: 30 }} />
         </Avatar>
-        <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+        <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 800 }}>
           AgriAI
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -89,8 +89,8 @@ const Sidebar = ({ activeItem }) => {
             <ListItemButton
               onClick={() => {
                 if (!item.active) {
-                  const route = `/${item.text.toLowerCase().replace(/\s+/g, '-').replace('&', '').replace(' ', '-')}`;
-                  navigate(route);
+                  const path = item.path || `/${item.text.toLowerCase().replace(/\s+/g, '-')}`;
+                  navigate(path);
                 }
               }}
               sx={{

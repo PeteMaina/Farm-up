@@ -23,6 +23,7 @@ import FieldMapping from './components/FieldMapping';
 import Sustainability from './components/Sustainability';
 import Settings from './components/Settings';
 import HelpSupport from './components/HelpSupport';
+import NotFound from './components/NotFound';
 
 import { getIPLocation, getPreferredLocation } from './utils/locationUtils';
 
@@ -111,6 +112,7 @@ function App() {
             }
           />
           <Route path="/help-support" element={<Layout activeItem="Help & Support"><HelpSupport location={locationDetails} cropType={cropType} /></Layout>} />
+          <Route path="*" element={<Layout activeItem="404 Not Found"><NotFound /></Layout>} />
         </Routes>
       </Router>
     </ThemeProvider>
