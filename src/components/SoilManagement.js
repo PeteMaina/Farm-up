@@ -50,7 +50,10 @@ const cropNutrientsInfo = {
   },
 };
 
+import { useLocalization } from '../context/LocalizationContext';
+
 const SoilManagement = ({ location, cropType = 'default' }) => {
+  const { getUnitLabel, convertUnit } = useLocalization();
   const theme = useTheme();
   const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
 

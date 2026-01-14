@@ -12,8 +12,9 @@ import {
   CheckCircle, Warning, CloudUpload, Download, Refresh, Delete, Edit,
   Visibility, VisibilityOff, Lock, Key, Smartphone, Language, Schedule,
   People, Public, AttachMoney, MoneyOff, CreditCard, TrendingUp, Backup,
-  Restore, SaveAlt, Share, VpnKey, DevicesOther, History, Assessment
+  Restore, SaveAlt, Share, VpnKey, DevicesOther, History, Assessment, GpsFixed
 } from '@mui/icons-material';
+import { useLocalization } from '../context/LocalizationContext';
 
 const Settings = ({ themeMode, onThemeModeChange }) => {
   const [tabValue, setTabValue] = useState(0);
@@ -43,11 +44,16 @@ const Settings = ({ themeMode, onThemeModeChange }) => {
     nextBilling: '2026-02-15'
   });
 
+  const {
+    city, country, continent, currency, units, locale, isSmartDetect,
+    updatePreference
+  } = useLocalization();
+
   const [preferences, setPreferences] = useState({
-    units: 'imperial',
-    currency: 'USD',
+    units: units,
+    currency: currency,
     timezone: 'EST',
-    language: 'en',
+    language: locale.split('-')[0],
     dateFormat: 'MM/DD/YYYY'
   });
 
@@ -284,20 +290,58 @@ const Settings = ({ themeMode, onThemeModeChange }) => {
               <Divider />
               <CardContent>
                 <Stack spacing={2.5}>
+                  <FormControlLabel
+                    control={<Switch checked={isSmartDetect} onChange={(e) => updatePreference({ isSmartDetect: e.target.checked })} />}
+                    label={
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <GpsFixed fontSize="small" color="primary" />
+                        <Typography variant="body1">Global Smart-Detection (IP-based)</Typography>
+                      </Stack>
+                    }
+                    sx={{ mb: 2, p: 1, border: '1px solid', borderColor: 'divider', borderRadius: 2, width: '100%', ml: 0 }}
+                  />
+
+                  {isSmartDetect && (
+                    <Alert severity="success" sx={{ mb: 2 }}>
+                      Auto-detected: {city}, {country} ({continent})
+                    </Alert>
+                  )}
+
                   <FormControl fullWidth>
                     <InputLabel>Unit System</InputLabel>
-                    <Select value={preferences.units} label="Unit System" onChange={(e) => setPreferences({ ...preferences, units: e.target.value })}>
+                    <Select
+                      disabled={isSmartDetect}
+                      value={isSmartDetect ? units : preferences.units}
+                      label="Unit System"
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setPreferences({ ...preferences, units: val });
+                        updatePreference({ units: val });
+                      }}
+                    >
                       <MenuItem value="imperial">Imperial (acres, °F, mph)</MenuItem>
                       <MenuItem value="metric">Metric (hectares, °C, km/h)</MenuItem>
                     </Select>
                   </FormControl>
                   <FormControl fullWidth>
                     <InputLabel>Currency</InputLabel>
-                    <Select value={preferences.currency} label="Currency" onChange={(e) => setPreferences({ ...preferences, currency: e.target.value })}>
+                    <Select
+                      disabled={isSmartDetect}
+                      value={isSmartDetect ? currency : preferences.currency}
+                      label="Currency"
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setPreferences({ ...preferences, currency: val });
+                        updatePreference({ currency: val });
+                      }}
+                    >
                       <MenuItem value="USD">USD ($)</MenuItem>
                       <MenuItem value="EUR">EUR (€)</MenuItem>
                       <MenuItem value="GBP">GBP (£)</MenuItem>
+                      <MenuItem value="KES">KES (KSh)</MenuItem>
+                      <MenuItem value="INR">INR (₹)</MenuItem>
                       <MenuItem value="CAD">CAD ($)</MenuItem>
+                      <MenuItem value="AUD">AUD ($)</MenuItem>
                     </Select>
                   </FormControl>
                   <FormControl fullWidth>

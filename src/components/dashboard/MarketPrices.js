@@ -2,8 +2,11 @@ import React from 'react';
 import { Card, CardContent, Typography, Box, Stack, Chip, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { TrendingUp, TrendingDown, TrendingFlat } from '@mui/icons-material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useLocalization } from '../../context/LocalizationContext';
 
 const MarketPrices = ({ cropType }) => {
+    const { formatCurrency } = useLocalization();
+
     // Market price data for different crops (last 7 days)
     const priceHistory = {
         corn: [
@@ -45,12 +48,12 @@ const MarketPrices = ({ cropType }) => {
     };
 
     const currentPrices = [
-        { crop: 'Corn', price: 258, change: +5.3, trend: 'up', unit: '$/bushel' },
-        { crop: 'Wheat', price: 322, change: +3.2, trend: 'up', unit: '$/bushel' },
-        { crop: 'Soybeans', price: 540, change: +3.8, trend: 'up', unit: '$/bushel' },
-        { crop: 'Tomatoes', price: 1950, change: +5.4, trend: 'up', unit: '$/ton' },
-        { crop: 'Cotton', price: 0.87, change: -1.2, trend: 'down', unit: '$/lb' },
-        { crop: 'Rice', price: 16.5, change: 0, trend: 'stable', unit: '$/cwt' },
+        { crop: 'Corn', price: 258, change: 5.3, trend: 'up', unit: '/bushel' },
+        { crop: 'Wheat', price: 322, change: 3.2, trend: 'up', unit: '/bushel' },
+        { crop: 'Soybeans', price: 540, change: 3.8, trend: 'up', unit: '/bushel' },
+        { crop: 'Tomatoes', price: 1950, change: 5.4, trend: 'up', unit: '/ton' },
+        { crop: 'Cotton', price: 0.87, change: -1.2, trend: 'down', unit: '/lb' },
+        { crop: 'Rice', price: 16.5, change: 0, trend: 'stable', unit: '/cwt' },
     ];
 
     const selectedCropData = priceHistory[cropType?.toLowerCase()] || priceHistory.corn;
@@ -98,7 +101,7 @@ const MarketPrices = ({ cropType }) => {
                                 </Typography>
                                 <Stack direction="row" alignItems="center" spacing={1} mt={0.5}>
                                     <Typography variant="h4" fontWeight={700}>
-                                        ${currentPrice}
+                                        {formatCurrency(currentPrice)}
                                     </Typography>
                                     <Chip
                                         label={`${priceChange >= 0 ? '+' : ''}${percentChange}%`}
@@ -148,7 +151,12 @@ const MarketPrices = ({ cropType }) => {
                                             <Typography variant="body2" fontWeight={600}>{item.crop}</Typography>
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Typography variant="body2">${item.price} <Typography variant="caption" color="text.secondary">{item.unit}</Typography></Typography>
+                                            <Typography variant="body2">
+                                                {formatCurrency(item.price)}
+                                                <Box component="span" sx={{ color: 'text.secondary', fontSize: '0.75rem', ml: 0.5 }}>
+                                                    {item.unit}
+                                                </Box>
+                                            </Typography>
                                         </TableCell>
                                         <TableCell align="right">
                                             <Typography

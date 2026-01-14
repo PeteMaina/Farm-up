@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Typography, Container, Box, Grid, Card, CardContent, CardHeader, CircularProgress, Alert, Avatar, Divider, LinearProgress, Stack } from '@mui/material';
-import { Cloud, Thermostat as Thermometer, Opacity, WindPower, WbSunny, WaterDrop } from '@mui/icons-material';
+import { useLocalization } from '../context/LocalizationContext';
 
 const WeatherInsights = ({ location }) => {
+  const { convertUnit, getUnitLabel } = useLocalization();
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -70,9 +69,11 @@ const WeatherInsights = ({ location }) => {
               avatar={<Avatar sx={{ bgcolor: 'warning.light' }}><Thermometer color="warning" /></Avatar>}
             />
             <CardContent>
-              <Typography variant="h3" fontWeight={700}>{weatherData?.temperature}°C</Typography>
+              <Typography variant="h3" fontWeight={700}>
+                {Math.round(convertUnit(weatherData?.temperature, 'temp'))}{getUnitLabel('temp')}
+              </Typography>
               <Typography variant="body2" color="text.secondary">
-                Feels like {Math.round(weatherData?.temperature + 2)}°C
+                Feels like {Math.round(convertUnit(weatherData?.temperature + 2, 'temp'))}{getUnitLabel('temp')}
               </Typography>
             </CardContent>
           </Card>
@@ -99,7 +100,9 @@ const WeatherInsights = ({ location }) => {
               avatar={<Avatar sx={{ bgcolor: 'grey.300' }}><WindPower color="action" /></Avatar>}
             />
             <CardContent>
-              <Typography variant="h3" fontWeight={700}>{weatherData?.windSpeed} <Typography component="span" variant="h5" color="text.secondary">km/h</Typography></Typography>
+              <Typography variant="h3" fontWeight={700}>
+                {Math.round(convertUnit(weatherData?.windSpeed, 'speed'))} <Typography component="span" variant="h5" color="text.secondary">{getUnitLabel('speed')}</Typography>
+              </Typography>
               <Typography variant="body2" color="text.secondary">
                 Direction: North-West
               </Typography>
@@ -136,7 +139,9 @@ const WeatherInsights = ({ location }) => {
                   <Box sx={{ my: 2 }}>
                     {day.condition === 'Sunny' ? <WbSunny color="warning" fontSize="large" /> : <Cloud color="info" fontSize="large" />}
                   </Box>
-                  <Typography variant="h4" sx={{ mb: 1 }}>{day.temp}°C</Typography>
+                  <Typography variant="h4" sx={{ mb: 1 }}>
+                    {Math.round(convertUnit(day.temp, 'temp'))}{getUnitLabel('temp')}
+                  </Typography>
                   <Typography variant="body2" color="text.secondary" gutterBottom>
                     {day.condition}
                   </Typography>

@@ -2,8 +2,11 @@ import React from 'react';
 import { Card, CardContent, Typography, Box, Grid, Stack, Chip, LinearProgress } from '@mui/material';
 import { WbSunny, Opacity, Air, CloudQueue, Umbrella } from '@mui/icons-material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { useLocalization } from '../../context/LocalizationContext';
 
 const WeatherWidget = ({ location }) => {
+    const { convertUnit, getUnitLabel } = useLocalization();
+
     // Simulated 7-day forecast data
     const forecastData = [
         { day: 'Mon', temp: 24, precip: 10, wind: 12 },
@@ -45,7 +48,9 @@ const WeatherWidget = ({ location }) => {
                         <Grid item xs={6} sm={3}>
                             <Stack alignItems="center" spacing={1}>
                                 <WbSunny color="warning" sx={{ fontSize: 40 }} />
-                                <Typography variant="h4" fontWeight={700}>{currentWeather.temp}°C</Typography>
+                                <Typography variant="h4" fontWeight={700}>
+                                    {Math.round(convertUnit(currentWeather.temp, 'temp'))}°{getUnitLabel('temp')}
+                                </Typography>
                                 <Typography variant="caption" color="text.secondary">Temperature</Typography>
                             </Stack>
                         </Grid>
@@ -59,7 +64,9 @@ const WeatherWidget = ({ location }) => {
                         <Grid item xs={6} sm={3}>
                             <Stack alignItems="center" spacing={1}>
                                 <Air color="primary" sx={{ fontSize: 40 }} />
-                                <Typography variant="h4" fontWeight={700}>{currentWeather.windSpeed} km/h</Typography>
+                                <Typography variant="h4" fontWeight={700}>
+                                    {Math.round(convertUnit(currentWeather.windSpeed, 'speed'))} {getUnitLabel('speed')}
+                                </Typography>
                                 <Typography variant="caption" color="text.secondary">Wind Speed</Typography>
                             </Stack>
                         </Grid>
@@ -69,25 +76,6 @@ const WeatherWidget = ({ location }) => {
                                 <Typography variant="h4" fontWeight={700}>{currentWeather.precipitation}%</Typography>
                                 <Typography variant="caption" color="text.secondary">Precipitation</Typography>
                             </Stack>
-                        </Grid>
-                    </Grid>
-
-                    {/* Additional Metrics */}
-                    <Grid container spacing={2}>
-                        <Grid item xs={4}>
-                            <Typography variant="caption" color="text.secondary">UV Index</Typography>
-                            <Stack direction="row" alignItems="center" spacing={1}>
-                                <Typography variant="h6" fontWeight={600}>{currentWeather.uvIndex}</Typography>
-                                <Chip label="High" size="small" color="warning" />
-                            </Stack>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography variant="caption" color="text.secondary">Visibility</Typography>
-                            <Typography variant="h6" fontWeight={600}>{currentWeather.visibility} km</Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography variant="caption" color="text.secondary">Pressure</Typography>
-                            <Typography variant="h6" fontWeight={600}>{currentWeather.pressure} hPa</Typography>
                         </Grid>
                     </Grid>
 
@@ -110,22 +98,6 @@ const WeatherWidget = ({ location }) => {
                                 <Tooltip />
                                 <Area type="monotone" dataKey="temp" stroke="#FFA726" fillOpacity={1} fill="url(#colorTemp)" />
                             </AreaChart>
-                        </ResponsiveContainer>
-                    </Box>
-
-                    {/* Precipitation Probability */}
-                    <Box>
-                        <Typography variant="subtitle1" fontWeight={600} gutterBottom>
-                            Precipitation Probability
-                        </Typography>
-                        <ResponsiveContainer width="100%" height={120}>
-                            <LineChart data={forecastData}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-                                <XAxis dataKey="day" style={{ fontSize: '12px' }} />
-                                <YAxis style={{ fontSize: '12px' }} />
-                                <Tooltip />
-                                <Line type="monotone" dataKey="precip" stroke="#29B6F6" strokeWidth={2} dot={{ fill: '#29B6F6' }} />
-                            </LineChart>
                         </ResponsiveContainer>
                     </Box>
 

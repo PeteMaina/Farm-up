@@ -30,8 +30,10 @@ import {
   Refresh,
   Download,
 } from '@mui/icons-material';
+import { useLocalization } from '../context/LocalizationContext';
 
 const MarketPrices = () => {
+  const { formatCurrency, getUnitLabel } = useLocalization();
   const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -39,10 +41,10 @@ const MarketPrices = () => {
   };
 
   const priceData = [
-    { commodity: 'Corn', price: '$4.25/bushel', change: '+2.4%', trend: 'up' },
-    { commodity: 'Wheat', price: '$5.10/bushel', change: '-1.2%', trend: 'down' },
-    { commodity: 'Soybeans', price: '$12.80/bushel', change: '+1.8%', trend: 'up' },
-    { commodity: 'Rice', price: '$15.50/cwt', change: '+0.5%', trend: 'up' },
+    { commodity: 'Corn', price: 4.25, unit: 'bushel', trend: 'up', change: '+2.4%' },
+    { commodity: 'Wheat', price: 5.10, unit: 'bushel', trend: 'down', change: '-1.2%' },
+    { commodity: 'Soybeans', price: 12.80, unit: 'bushel', trend: 'up', change: '+1.8%' },
+    { commodity: 'Rice', price: 15.50, unit: 'cwt', trend: 'up', change: '+0.5%' },
   ];
 
   const getTrendIcon = (trend) => {
@@ -82,7 +84,7 @@ const MarketPrices = () => {
               />
               <Divider />
               <CardContent>
-                <Typography variant="h4" sx={{ mb: 1, fontWeight: 700 }}>$4.25</Typography>
+                <Typography variant="h4" sx={{ mb: 1, fontWeight: 700 }}>{formatCurrency(4.25)}</Typography>
                 <Typography variant="body2" color="success.main" fontWeight={600}>
                   +2.4% from last week
                 </Typography>
@@ -98,7 +100,7 @@ const MarketPrices = () => {
               />
               <Divider />
               <CardContent>
-                <Typography variant="h4" sx={{ mb: 1, fontWeight: 700 }}>$5.10</Typography>
+                <Typography variant="h4" sx={{ mb: 1, fontWeight: 700 }}>{formatCurrency(5.10)}</Typography>
                 <Typography variant="body2" color="error.main" fontWeight={600}>
                   -1.2% from last week
                 </Typography>
@@ -130,7 +132,7 @@ const MarketPrices = () => {
                           <TableCell>
                             <Typography variant="subtitle2" fontWeight={600}>{row.commodity}</Typography>
                           </TableCell>
-                          <TableCell>{row.price}</TableCell>
+                          <TableCell>{formatCurrency(row.price)} / {row.unit}</TableCell>
                           <TableCell>
                             <Chip
                               label={row.change}
