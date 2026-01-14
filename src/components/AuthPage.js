@@ -122,7 +122,7 @@ const AuthPage = () => {
               <Agriculture sx={{ fontSize: 32 }} />
             </Avatar>
             <Typography variant="h4" gutterBottom sx={{ fontWeight: 800, color: 'primary.main' }}>
-              {isSignUp ? 'Join AgriAI' : 'Welcome Back'}
+              {isSignUp ? 'Join Agrowise' : 'Welcome Back'}
             </Typography>
             <Typography variant="body1" color="text.secondary">
               {isSignUp ? 'Create your account to start optimizing your farm' : 'Sign in to access your dashboard'}

@@ -76,7 +76,7 @@ const Sidebar = ({ activeItem }) => {
           <Agriculture sx={{ fontSize: 30 }} />
         </Avatar>
         <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 800 }}>
-          AgriAI
+          Agrowise
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Smart Farming Platform

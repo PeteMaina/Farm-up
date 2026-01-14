@@ -105,7 +105,7 @@ const LandingPage = () => {
         <AppBar position="fixed" color="inherit" elevation={0} sx={{ borderBottom: '1px solid', borderColor: 'divider', bgcolor: theme.palette.mode === 'dark' ? 'rgba(18,18,18,0.9)' : 'rgba(255,255,255,0.9)', backdropFilter: 'blur(8px)' }}>
           <Toolbar>
             <Typography variant="h5" sx={{ flexGrow: 1, color: 'primary.main', fontWeight: 800, letterSpacing: '-0.5px' }}>
-              AgriAI
+              Agrowise
             </Typography>
             <Stack direction="row" spacing={1} sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button color="inherit">Features</Button>
@@ -135,7 +135,7 @@ const LandingPage = () => {
             <Grid item xs={12} md={6}>
               <Box sx={{ mb: 4 }}>
                 <Typography variant="h1" gutterBottom lineHeight={1.1} sx={{ background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`, backgroundClip: 'text', textFillColor: 'transparent', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  Revolutionize Your Farming with AI
+                  Revolutionize Your Farming with Agrowise
                 </Typography>
               </Box>
               <Typography variant="h5" paragraph sx={{ color: 'text.secondary', mb: 5, fontWeight: 400, transform: 'none' }}>
@@ -182,8 +182,8 @@ const LandingPage = () => {
                 <Box
                   component="img"
                   src="/hero.png"
-                  onError={(e) => { e.target.src = 'https://via.placeholder.com/800x600/2E7D32/FFFFFF?text=AgriAI+Dashboard' }}
-                  alt="AgriAI Dashboard"
+                  onError={(e) => { e.target.src = 'https://via.placeholder.com/800x600/2E7D32/FFFFFF?text=Agrowise+Dashboard' }}
+                  alt="Agrowise Dashboard"
                   sx={{
                     width: '100%',
                     borderRadius: 6,
@@ -306,7 +306,7 @@ const LandingPage = () => {
           <Grid container spacing={8}>
             <Grid item xs={12} md={4}>
               <Typography variant="h5" gutterBottom sx={{ color: 'white', fontWeight: 'bold' }}>
-                AgriAI
+                Agrowise
               </Typography>
               <Typography variant="body2" sx={{ maxWidth: 300 }}>
                 Empowering farmers with AI-driven insights for sustainable agriculture.
@@ -345,7 +345,7 @@ const LandingPage = () => {
           </Grid>
           <Box sx={{ mt: 8, pt: 4, borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'center' }}>
             <Typography variant="caption" color="grey.500">
-              © {new Date().getFullYear()} AgriAI. All rights reserved.
+              © {new Date().getFullYear()} Agrowise. All rights reserved.
             </Typography>
           </Box>
         </Container>

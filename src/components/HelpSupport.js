@@ -33,7 +33,7 @@ import {
   Phone,
   Forum,
   Search,
-  SmartToy, // AI Bot Icon
+  SmartToy, // AgroBot Icon
   PlayCircle,
   VideoLibrary,
   Facebook,
@@ -49,7 +49,7 @@ import {
 const HelpSupport = () => {
   const [chatMessage, setChatMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([
-    { sender: 'bot', text: 'Hello! I am AgriBot, your AI farming assistant. How can I help you today?' }
+    { sender: 'bot', text: 'Hello! I am AgroBot, your AI farming assistant. How can I help you today?' }
   ]);
   const [activeTab, setActiveTab] = useState('all');
 
@@ -77,7 +77,7 @@ const HelpSupport = () => {
   ];
 
   const videos = [
-    { title: 'Getting Started with AgriAI', duration: '5:20', thumbnail: 'https://via.placeholder.com/300x160?text=Getting+Started' },
+    { title: 'Getting Started with Agrowise', duration: '5:20', thumbnail: 'https://via.placeholder.com/300x160?text=Getting+Started' },
     { title: 'Calibrating Moisture Sensors', duration: '3:45', thumbnail: 'https://via.placeholder.com/300x160?text=Sensor+Calibration' },
     { title: 'Understanding Yield Predictions', duration: '8:10', thumbnail: 'https://via.placeholder.com/300x160?text=Yield+Prediction' },
     { title: 'Optimizing Fertilizer Usage', duration: '6:30', thumbnail: 'https://via.placeholder.com/300x160?text=Fertilizer+Tips' }
@@ -94,7 +94,7 @@ const HelpSupport = () => {
     setTimeout(() => {
       setChatHistory(prev => [...prev, {
         sender: 'bot',
-        text: "I'm processing requested info... This is a demo response from AgriBot."
+        text: "I'm processing requested info... This is a demo response from AgroBot."
       }]);
     }, 1000);
   };
@@ -117,7 +117,7 @@ const HelpSupport = () => {
             How can we help you?
           </Typography>
           <Typography variant="h6" sx={{ mb: 4, opacity: 0.9 }}>
-            Search our knowledge base, ask AgriBot, or browse tutorials.
+            Search our knowledge base, ask AgroBot, or browse tutorials.
           </Typography>
           <TextField
             fullWidth
@@ -154,7 +154,7 @@ const HelpSupport = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Avatar sx={{ bgcolor: 'secondary.main', mr: 2 }}><SmartToy /></Avatar>
                   <Box>
-                    <Typography variant="h6" fontWeight={700}>Ask AgriBot AI</Typography>
+                    <Typography variant="h6" fontWeight={700}>Ask AgroBot AI</Typography>
                     <Typography variant="caption" color="text.secondary">Instant answers powered by advanced AI</Typography>
                   </Box>
                 </Box>
@@ -248,7 +248,7 @@ const HelpSupport = () => {
                 <Divider variant="inset" component="li" />
                 <ListItem button>
                   <ListItemIcon><Email color="primary" /></ListItemIcon>
-                  <ListItemText primary="Email Us" secondary="support@agriai.com" />
+                  <ListItemText primary="Email Us" secondary="support@agrowise.com" />
                 </ListItem>
                 <Divider variant="inset" component="li" />
                 <ListItem button>
