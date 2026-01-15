@@ -94,10 +94,16 @@ const FinancialReports = () => {
           </Typography>
         </Box>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" startIcon={<Refresh />} onClick={() => setLoading(true)}>
-            Refresh
+          <Button variant="outlined" startIcon={<Refresh />} onClick={() => {
+            setLoading(true);
+            setTimeout(() => {
+              setLoading(false);
+              alert('Financial reports updated!');
+            }, 1000);
+          }} disabled={loading}>
+            {loading ? 'Refreshing...' : 'Refresh'}
           </Button>
-          <Button variant="contained" startIcon={<Download />}>
+          <Button variant="contained" startIcon={<Download />} onClick={() => alert('PDF report is being generated and will download shortly...')}>
             Download PDF
           </Button>
         </Stack>

@@ -93,7 +93,7 @@ const Sustainability = () => {
                   </ul>
                 </Grid>
                 <Grid item xs={12} md={6} display="flex" alignItems="center" justifyContent="center">
-                  <Button variant="contained" color="success" size="large">
+                  <Button variant="contained" color="success" size="large" onClick={() => alert('Sustainability report is being generated...')}>
                     Download Sustainability Report
                   </Button>
                 </Grid>

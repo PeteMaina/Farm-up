@@ -94,6 +94,11 @@ const PestControl = () => {
           <Tab label="Prevention" />
           <Tab label="Treatments" />
         </Tabs>
+        <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid', borderColor: 'divider' }}>
+          <Button startIcon={<Add />} variant="contained" size="small" onClick={() => alert('Add new pest report form...')} >
+            Report Threat
+          </Button>
+        </Box>
       </Paper>
 
       {tabValue === 0 && (
@@ -195,7 +200,7 @@ const PestControl = () => {
                             />
                           </TableCell>
                           <TableCell>
-                            <IconButton size="small">
+                            <IconButton size="small" onClick={() => alert(`Details for ${row.pest} in ${row.field}...`)}>
                               <Info fontSize="small" />
                             </IconButton>
                           </TableCell>

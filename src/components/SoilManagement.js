@@ -179,7 +179,12 @@ const SoilManagement = ({ location, cropType = 'default' }) => {
                 For in-depth soil analysis, we recommend visiting the Soil Health Institute or contacting your local agricultural extension service. Regular soil testing is key to maximizing your yields sustainability.
               </Typography>
               <Box sx={{ mt: 2 }}>
-                <Typography variant="subtitle2" color="primary" sx={{ cursor: 'pointer', textDecoration: 'underline' }}>
+                <Typography
+                  variant="subtitle2"
+                  color="primary"
+                  sx={{ cursor: 'pointer', textDecoration: 'underline' }}
+                  onClick={() => alert('Professional soil test scheduled! A specialist will contact you shortly.')}
+                >
                   Schedule Professional Soil Test &rarr;
                 </Typography>
               </Box>

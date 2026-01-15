@@ -64,6 +64,25 @@ const CropAnalytics = () => {
     setTabValue(newValue);
   };
 
+  const handleRefresh = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      alert('Crop analytics data refreshed!');
+    }, 1000);
+  };
+
+  const handleExport = () => {
+    const data = JSON.stringify(cropData, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'crop_analytics_export.json';
+    link.click();
+    alert('Exporting crop analytics data...');
+  };
+
   const cropData = [
     { crop: 'Corn', yield: '2,850 tons', change: '+12%', status: 'excellent' },
     { crop: 'Wheat', yield: '1,950 tons', change: '+8%', status: 'good' },
@@ -103,10 +122,10 @@ const CropAnalytics = () => {
           </Typography>
         </Box>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" startIcon={<Refresh />} onClick={() => setLoading(true)}>
-            Refresh
+          <Button variant="outlined" startIcon={<Refresh />} onClick={handleRefresh} disabled={loading}>
+            {loading ? 'Refreshing...' : 'Refresh'}
           </Button>
-          <Button variant="contained" startIcon={<Download />}>
+          <Button variant="contained" startIcon={<Download />} onClick={handleExport}>
             Export
           </Button>
         </Stack>

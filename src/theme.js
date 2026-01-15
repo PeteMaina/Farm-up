@@ -1,13 +1,13 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
-const createAppTheme = (mode = 'light') => {
+const createAppTheme = (mode = 'light', accentColor = '#2E7D32') => {
   let theme = createTheme({
     palette: {
       mode,
       primary: {
-        main: mode === 'dark' ? '#66BB6A' : '#2E7D32', // Lighter green for dark mode
-        light: mode === 'dark' ? '#98EE99' : '#60AD5E',
-        dark: mode === 'dark' ? '#338A3E' : '#005005',
+        main: accentColor,
+        light: mode === 'dark' ? accentColor : accentColor, // We can refine these if needed
+        dark: mode === 'dark' ? accentColor : accentColor,
         contrastText: '#FFF',
       },
       secondary: {

@@ -47,8 +47,8 @@ const IoTSensors = () => {
           </Typography>
         </Box>
         <Stack direction="row" spacing={2}>
-          <IconButton color="primary"><Refresh /></IconButton>
-          <IconButton color="primary"><Add /></IconButton>
+          <IconButton color="primary" onClick={() => alert('Refreshing sensor data...')}><Refresh /></IconButton>
+          <IconButton color="primary" onClick={() => alert('Add new sensor form...')}><Add /></IconButton>
         </Stack>
       </Stack>
 

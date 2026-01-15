@@ -50,6 +50,17 @@ const IrrigationControl = ({ location, cropType = 'default' }) => {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isCycling, setIsCycling] = useState(false);
+
+  const handleStartCycle = () => {
+    setIsCycling(true);
+    alert(`Starting irrigation cycle using ${selectedSystem} system...`);
+  };
+
+  const handleStopCycle = () => {
+    setIsCycling(false);
+    alert('Irrigation cycle stopped.');
+  };
 
   // Fetch weather data for irrigation recommendations
   useEffect(() => {
@@ -179,18 +190,20 @@ const IrrigationControl = ({ location, cropType = 'default' }) => {
                   color="success"
                   startIcon={<PlayArrow />}
                   size="large"
-                  disabled={autoIrrigation}
+                  disabled={autoIrrigation || isCycling}
                   fullWidth
+                  onClick={handleStartCycle}
                 >
-                  Start Cycle
+                  {isCycling ? 'Cycle Running...' : 'Start Cycle'}
                 </Button>
                 <Button
                   variant="outlined"
                   color="error"
                   startIcon={<Stop />}
                   size="large"
-                  disabled={autoIrrigation}
+                  disabled={autoIrrigation || !isCycling}
                   fullWidth
+                  onClick={handleStopCycle}
                 >
                   Stop Cycle
                 </Button>

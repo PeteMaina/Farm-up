@@ -61,7 +61,7 @@ const FarmEquipment = () => {
             Monitor status, maintenance schedules, and inventory.
           </Typography>
         </Box>
-        <Button variant="contained" startIcon={<Add />}>
+        <Button variant="contained" startIcon={<Add />} onClick={() => alert('Form to add new equipment...')}>
           Add Equipment
         </Button>
       </Stack>
@@ -104,7 +104,7 @@ const FarmEquipment = () => {
                     </Typography>
                   </Box>
                 </Stack>
-                <Button variant="outlined" size="small" fullWidth sx={{ mt: 3 }}>
+                <Button variant="outlined" size="small" fullWidth sx={{ mt: 3 }} onClick={() => alert(`Viewing details for ${item.name}...`)}>
                   Details
                 </Button>
               </CardContent>
@@ -131,7 +131,7 @@ const FarmEquipment = () => {
                   <Typography variant="caption" color="text.secondary">Due: Next Monday</Typography>
                 </Box>
               </Stack>
-              <Button variant="contained" startIcon={<Build />} fullWidth>
+              <Button variant="contained" startIcon={<Build />} fullWidth onClick={() => alert('Opening full maintenance schedule...')}>
                 View Full Schedule
               </Button>
             </CardContent>

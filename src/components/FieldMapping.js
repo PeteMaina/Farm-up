@@ -35,8 +35,8 @@ const FieldMapping = () => {
               avatar={<Avatar sx={{ bgcolor: 'info.main' }}><Map /></Avatar>}
               action={
                 <Stack direction="row" spacing={1}>
-                  <Button size="small" startIcon={<Share />}>Share</Button>
-                  <Button size="small" startIcon={<Edit />}>Edit</Button>
+                  <Button size="small" startIcon={<Share />} onClick={() => alert('Sharing field map link...')}>Share</Button>
+                  <Button size="small" startIcon={<Edit />} onClick={() => alert('Entering field map edit mode...')}>Edit</Button>
                 </Stack>
               }
             />
@@ -59,13 +59,13 @@ const FieldMapping = () => {
                 </Typography>
               </Box>
               <Stack direction="row" spacing={2} justifyContent="center">
-                <Button variant="outlined" startIcon={<ZoomIn />}>
+                <Button variant="outlined" startIcon={<ZoomIn />} onClick={() => alert('Zooming in to map...')}>
                   Zoom In
                 </Button>
-                <Button variant="outlined" startIcon={<Layers />}>
+                <Button variant="outlined" startIcon={<Layers />} onClick={() => alert('Toggling map layers...')}>
                   Layers
                 </Button>
-                <Button variant="outlined" startIcon={<GpsFixed />}>
+                <Button variant="outlined" startIcon={<GpsFixed />} onClick={() => alert('Locating current devices on map...')}>
                   Locate Me
                 </Button>
               </Stack>

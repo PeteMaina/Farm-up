@@ -65,6 +65,14 @@ const MarketPrices = () => {
           Live commodity prices and market trends.
         </Typography>
       </Box>
+      <Stack direction="row" spacing={1} sx={{ mb: 4 }} justifyContent="flex-end">
+        <Button variant="outlined" startIcon={<Refresh />} onClick={() => alert('Market prices updated!')} >
+          Refresh
+        </Button>
+        <Button variant="contained" startIcon={<Download />} onClick={() => alert('Exporting market data...')} >
+          Export
+        </Button>
+      </Stack>
 
       <Paper sx={{ mb: 4, borderRadius: 2 }}>
         <Tabs value={tabValue} onChange={handleTabChange} sx={{ borderBottom: 1, borderColor: 'divider' }}>

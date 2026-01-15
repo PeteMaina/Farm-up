@@ -40,7 +40,7 @@ const FertilizerPlanner = () => {
                   InputLabelProps={{ shrink: true }}
                   variant="outlined"
                 />
-                <Button variant="contained" size="large" fullWidth>
+                <Button variant="contained" size="large" fullWidth onClick={() => alert('Fertilizer application scheduled!')}>
                   Schedule Application
                 </Button>
               </Stack>
@@ -72,7 +72,7 @@ const FertilizerPlanner = () => {
                   </Grid>
                 </Grid>
               </Box>
-              <Button variant="outlined" startIcon={<CalendarMonth />} fullWidth>
+              <Button variant="outlined" startIcon={<CalendarMonth />} fullWidth onClick={() => alert('Viewing full schedule...')}>
                 View Full Schedule
               </Button>
             </CardContent>
