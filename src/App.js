@@ -36,12 +36,20 @@ function App() {
   const [themeMode, setThemeMode] = useState(() => {
     return localStorage.getItem('themeMode') || 'light';
   });
+  const [accentColor, setAccentColor] = useState(() => {
+    return localStorage.getItem('accentColor') || '#2E7D32';
+  });
 
-  const theme = React.useMemo(() => createAppTheme(themeMode), [themeMode]);
+  const theme = React.useMemo(() => createAppTheme(themeMode, accentColor), [themeMode, accentColor]);
 
   const handleThemeModeChange = (newMode) => {
     setThemeMode(newMode);
     localStorage.setItem('themeMode', newMode);
+  };
+
+  const handleAccentColorChange = (newColor) => {
+    setAccentColor(newColor);
+    localStorage.setItem('accentColor', newColor);
   };
 
   const handleSetUserLocation = (location) => {
@@ -98,6 +106,8 @@ function App() {
                     onSetCropType={handleSetCropType}
                     themeMode={themeMode}
                     onThemeModeChange={handleThemeModeChange}
+                    accentColor={accentColor}
+                    onAccentColorChange={handleAccentColorChange}
                   />
                 </Layout>
               }
