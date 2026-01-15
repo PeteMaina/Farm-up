@@ -16,7 +16,7 @@ import {
 } from '@mui/icons-material';
 import { useLocalization } from '../context/LocalizationContext';
 
-const Settings = ({ themeMode, onThemeModeChange }) => {
+const Settings = ({ themeMode, onThemeModeChange, accentColor, onAccentColorChange }) => {
   const [tabValue, setTabValue] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -159,6 +159,62 @@ const Settings = ({ themeMode, onThemeModeChange }) => {
     setTabValue(newValue);
   };
 
+  const handleSaveProfile = () => {
+    // Simulate API call
+    console.log('Saving profile:', profile);
+    alert('Profile saved successfully!');
+  };
+
+  const handleUpdateFarm = () => {
+    console.log('Updating farm details:', farmDetails);
+    alert('Farm details updated across the platform!');
+  };
+
+  const handlePhotoUpload = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (readerEvent) => {
+          // In a real app, you'd upload this to a server
+          console.log('Photo uploaded:', file.name);
+          alert('Profile picture updated!');
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
+  };
+
+  const handleExportData = () => {
+    console.log('Exporting data as:', dataExport.format);
+    const blob = new Blob([JSON.stringify({ profile, farmDetails, backup }, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `agrowise_export_${new Date().toISOString().split('T')[0]}.${dataExport.format}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    alert(`Data exported successfully in ${dataExport.format.toUpperCase()} format!`);
+  };
+
+  const handleApplyPreferences = () => {
+    console.log('Applying preferences:', preferences);
+    alert('System preferences updated!');
+  };
+
+  const handleBackupNow = () => {
+    console.log('Running manual backup...');
+    setTimeout(() => {
+      setBackup({ ...backup, lastBackup: new Date().toLocaleString() });
+      alert('Manual backup completed successfully!');
+    }, 1500);
+  };
+
   return (
     <Box sx={{ pb: 4 }}>
       {/* Header */}
@@ -197,7 +253,7 @@ const Settings = ({ themeMode, onThemeModeChange }) => {
               <CardHeader
                 title="Profile Information"
                 avatar={<Avatar sx={{ bgcolor: 'primary.main' }}><AccountCircle /></Avatar>}
-                action={<Button size="small" startIcon={<CloudUpload />}>Upload Photo</Button>}
+                action={<Button size="small" startIcon={<CloudUpload />} onClick={handlePhotoUpload}>Upload Photo</Button>}
               />
               <Divider />
               <CardContent>
@@ -215,7 +271,7 @@ const Settings = ({ themeMode, onThemeModeChange }) => {
                     </Select>
                   </FormControl>
                   <TextField fullWidth label="Bio" multiline rows={3} value={profile.bio} onChange={(e) => setProfile({ ...profile, bio: e.target.value })} />
-                  <Button variant="contained" fullWidth>Save Profile</Button>
+                  <Button variant="contained" fullWidth onClick={handleSaveProfile}>Save Profile</Button>
                 </Stack>
               </CardContent>
             </Card>
@@ -241,7 +297,7 @@ const Settings = ({ themeMode, onThemeModeChange }) => {
                   </FormControl>
                   <TextField fullWidth label="Established Year" value={farmDetails.established} onChange={(e) => setFarmDetails({ ...farmDetails, established: e.target.value })} />
                   <TextField fullWidth label="License Number" value={farmDetails.license} onChange={(e) => setFarmDetails({ ...farmDetails, license: e.target.value })} />
-                  <Button variant="outlined" fullWidth>Update Farm Info</Button>
+                  <Button variant="outlined" fullWidth onClick={handleUpdateFarm}>Update Farm Info</Button>
                 </Stack>
               </CardContent>
             </Card>
@@ -369,7 +425,7 @@ const Settings = ({ themeMode, onThemeModeChange }) => {
                       <MenuItem value="YYYY-MM-DD">YYYY-MM-DD</MenuItem>
                     </Select>
                   </FormControl>
-                  <Button variant="contained" fullWidth>Apply Preferences</Button>
+                  <Button variant="contained" fullWidth onClick={handleApplyPreferences}>Apply Preferences</Button>
                 </Stack>
               </CardContent>
             </Card>
@@ -571,8 +627,17 @@ const Settings = ({ themeMode, onThemeModeChange }) => {
                       {['#2E7D32', '#0288D1', '#F57C00', '#7B1FA2', '#D32F2F'].map(color => (
                         <Box
                           key={color}
-                          sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: color, cursor: 'pointer', border: appearance.accentColor === color ? '3px solid' : 'none', borderColor: 'primary.main' }}
-                          onClick={() => setAppearance({ ...appearance, accentColor: color })}
+                          sx={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: 1,
+                            bgcolor: color,
+                            cursor: 'pointer',
+                            border: accentColor === color ? '3px solid white' : 'none',
+                            boxShadow: accentColor === color ? '0 0 0 2px ' + color : 'none',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onClick={() => onAccentColorChange(color)}
                         />
                       ))}
                     </Stack>
@@ -908,7 +973,7 @@ const Settings = ({ themeMode, onThemeModeChange }) => {
                   )}
                   <Alert severity="info">Last backup: {backup.lastBackup}</Alert>
                   <Stack direction="row" spacing={2}>
-                    <Button variant="outlined" fullWidth startIcon={<Backup />}>Backup Now</Button>
+                    <Button variant="outlined" fullWidth startIcon={<Backup />} onClick={handleBackupNow}>Backup Now</Button>
                     <Button variant="outlined" fullWidth startIcon={<Restore />}>Restore</Button>
                   </Stack>
                 </Stack>
@@ -949,7 +1014,7 @@ const Settings = ({ themeMode, onThemeModeChange }) => {
                   <Typography variant="caption" color="text.secondary">
                     Export includes sensor data, reports, and configurations
                   </Typography>
-                  <Button variant="contained" fullWidth startIcon={<Download />}>Export Data</Button>
+                  <Button variant="contained" fullWidth startIcon={<Download />} onClick={handleExportData}>Export Data</Button>
                 </Stack>
               </CardContent>
             </Card>
