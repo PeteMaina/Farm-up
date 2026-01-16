@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Typography, Button, Container, Stack } from '@mui/material';
 import { ErrorOutline, Home } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
 
 import { useNavigate } from 'react-router-dom';
 import { useNotification } from '../context/NotificationContext';

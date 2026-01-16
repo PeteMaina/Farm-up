@@ -27,6 +27,7 @@ import {
   PlayArrow,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../context/NotificationContext';
 
 function HideOnScroll({ children }) {
   const trigger = useScrollTrigger();
@@ -37,7 +38,6 @@ function HideOnScroll({ children }) {
   );
 }
 
-import { useNotification } from '../context/NotificationContext';
 
 const LandingPage = () => {
   const navigate = useNavigate();
