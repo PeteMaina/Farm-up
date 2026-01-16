@@ -1,3 +1,26 @@
+import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  CardHeader,
+  Avatar,
+  Stack,
+  LinearProgress,
+  Divider,
+  Alert,
+  CircularProgress
+} from '@mui/material';
+import {
+  DeviceThermostat as Thermometer,
+  Opacity,
+  WindPower,
+  Cloud,
+  WbSunny,
+  WaterDrop
+} from '@mui/icons-material';
 import { useLocalization } from '../context/LocalizationContext';
 
 const WeatherInsights = ({ location }) => {
