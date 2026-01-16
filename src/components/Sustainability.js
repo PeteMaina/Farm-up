@@ -13,8 +13,10 @@ import {
   Button
 } from '@mui/material';
 import { NatureOutlined as Eco, Recycling, Nature, WaterDrop, Co2 } from '@mui/icons-material';
+import { useNotification } from '../context/NotificationContext';
 
 const Sustainability = () => {
+  const { showNotification } = useNotification();
   return (
     <Box sx={{ pb: 4 }}>
       <Box sx={{ mb: 4 }}>
@@ -93,7 +95,7 @@ const Sustainability = () => {
                   </ul>
                 </Grid>
                 <Grid item xs={12} md={6} display="flex" alignItems="center" justifyContent="center">
-                  <Button variant="contained" color="success" size="large" onClick={() => alert('Sustainability report is being generated...')}>
+                  <Button variant="contained" color="success" size="large" onClick={() => showNotification('Sustainability report is being generated...', 'info')}>
                     Download Sustainability Report
                   </Button>
                 </Grid>

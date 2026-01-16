@@ -3,8 +3,12 @@ import { Box, Typography, Button, Container, Stack } from '@mui/material';
 import { ErrorOutline, Home } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
+import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../context/NotificationContext';
+
 const NotFound = () => {
     const navigate = useNavigate();
+    const { showNotification } = useNotification();
 
     return (
         <Container maxWidth="md">
@@ -63,7 +67,10 @@ const NotFound = () => {
                         variant="contained"
                         size="large"
                         startIcon={<Home />}
-                        onClick={() => navigate('/dashboard')}
+                        onClick={() => {
+                            showNotification('Returning to safety...', 'info');
+                            navigate('/dashboard');
+                        }}
                         sx={{
                             px: 4,
                             py: 1.5,

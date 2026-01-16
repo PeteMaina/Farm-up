@@ -22,6 +22,7 @@ import {
   Chip
 } from '@mui/material';
 import { Opacity as WaterDrop, PlayArrow, Stop, WbSunny, Cloud, Thunderstorm } from '@mui/icons-material';
+import { useNotification } from '../context/NotificationContext';
 
 const irrigationSystemsInfo = {
   drip: {
@@ -44,6 +45,7 @@ const irrigationSystemsInfo = {
 
 const IrrigationControl = ({ location, cropType = 'default' }) => {
   const theme = useTheme();
+  const { showNotification } = useNotification();
   const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
   const [autoIrrigation, setAutoIrrigation] = useState(true);
   const [selectedSystem, setSelectedSystem] = useState('drip');
@@ -54,12 +56,12 @@ const IrrigationControl = ({ location, cropType = 'default' }) => {
 
   const handleStartCycle = () => {
     setIsCycling(true);
-    alert(`Starting irrigation cycle using ${selectedSystem} system...`);
+    showNotification(`Starting irrigation cycle using ${selectedSystem} system...`, 'info');
   };
 
   const handleStopCycle = () => {
     setIsCycling(false);
-    alert('Irrigation cycle stopped.');
+    showNotification('Irrigation cycle stopped.', 'warning');
   };
 
   // Fetch weather data for irrigation recommendations

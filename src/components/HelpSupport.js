@@ -46,7 +46,10 @@ import {
   ThumbDown
 } from '@mui/icons-material';
 
+import { useNotification } from '../context/NotificationContext';
+
 const HelpSupport = () => {
+  const { showNotification } = useNotification();
   const [chatMessage, setChatMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([
     { sender: 'bot', text: 'Hello! I am AgroBot, your AI farming assistant. How can I help you today?' }
@@ -89,6 +92,7 @@ const HelpSupport = () => {
     const newHistory = [...chatHistory, { sender: 'user', text: chatMessage }];
     setChatHistory(newHistory);
     setChatMessage('');
+    showNotification('Message sent', 'success');
 
     // Simulate Bot Response
     setTimeout(() => {
@@ -136,9 +140,9 @@ const HelpSupport = () => {
           />
           <Stack direction="row" spacing={1} justifyContent="center" sx={{ mt: 2 }}>
             <Typography variant="body2" sx={{ opacity: 0.8 }}>Popular:</Typography>
-            <Chip label="Sensors" size="small" onClick={() => { }} sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white' }} />
-            <Chip label="Billing" size="small" onClick={() => { }} sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white' }} />
-            <Chip label="Exports" size="small" onClick={() => { }} sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white' }} />
+            <Chip label="Sensors" size="small" onClick={() => showNotification('Searching for: Sensors', 'info')} sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white' }} />
+            <Chip label="Billing" size="small" onClick={() => showNotification('Searching for: Billing', 'info')} sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white' }} />
+            <Chip label="Exports" size="small" onClick={() => showNotification('Searching for: Exports', 'info')} sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white' }} />
           </Stack>
         </Box>
       </Box>
@@ -204,12 +208,12 @@ const HelpSupport = () => {
           <Box>
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
               <Typography variant="h5" fontWeight={700}>Video Tutorials</Typography>
-              <Button endIcon={<VideoLibrary />}>View All Library</Button>
+              <Button endIcon={<VideoLibrary />} onClick={() => showNotification('Opening full video library...', 'info')}>View All Library</Button>
             </Stack>
             <Grid container spacing={2}>
               {videos.map((video, index) => (
                 <Grid item xs={12} sm={6} md={6} key={index}>
-                  <Card sx={{ cursor: 'pointer', '&:hover': { boxShadow: 4 } }}>
+                  <Card sx={{ cursor: 'pointer', '&:hover': { boxShadow: 4 } }} onClick={() => showNotification(`Playing: ${video.title}`, 'success')}>
                     <Box sx={{ position: 'relative', paddingTop: '56.25%', bgcolor: 'black' }}>
                       <Box
                         component="img"
@@ -241,17 +245,17 @@ const HelpSupport = () => {
               <CardHeader title="Need Human Help?" avatar={<Avatar sx={{ bgcolor: 'warning.main' }}><ContactSupport /></Avatar>} />
               <Divider />
               <List>
-                <ListItem button>
+                <ListItem button onClick={() => showNotification('Calling support line...', 'success')}>
                   <ListItemIcon><Phone color="primary" /></ListItemIcon>
                   <ListItemText primary="Call Support" secondary="+1 (800) 555-0199" />
                 </ListItem>
                 <Divider variant="inset" component="li" />
-                <ListItem button>
+                <ListItem button onClick={() => showNotification('Opening email client...', 'success')}>
                   <ListItemIcon><Email color="primary" /></ListItemIcon>
                   <ListItemText primary="Email Us" secondary="support@agrowise.com" />
                 </ListItem>
                 <Divider variant="inset" component="li" />
-                <ListItem button>
+                <ListItem button onClick={() => showNotification('Starting live chat session...', 'success')}>
                   <ListItemIcon><Forum color="primary" /></ListItemIcon>
                   <ListItemText primary="Live Chat" secondary="Available 24/7" />
                 </ListItem>
@@ -272,13 +276,13 @@ const HelpSupport = () => {
                       <Typography variant="body2" color="text.secondary">{faq.answer}</Typography>
                       <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Typography variant="caption">Helpful?</Typography>
-                        <IconButton size="small"><ThumbUp fontSize="small" /></IconButton>
-                        <IconButton size="small"><ThumbDown fontSize="small" /></IconButton>
+                        <IconButton size="small" onClick={() => showNotification('Thanks for your feedback!', 'success')}><ThumbUp fontSize="small" /></IconButton>
+                        <IconButton size="small" onClick={() => showNotification('Thanks for your feedback!', 'success')}><ThumbDown fontSize="small" /></IconButton>
                       </Box>
                     </AccordionDetails>
                   </Accordion>
                 ))}
-                <Button fullWidth sx={{ mt: 2 }}>View Knowledge Base</Button>
+                <Button fullWidth sx={{ mt: 2 }} onClick={() => showNotification('Redirecting to knowledge base...', 'info')}>View Knowledge Base</Button>
               </CardContent>
             </Card>
 
@@ -290,19 +294,19 @@ const HelpSupport = () => {
                   Follow us for the latest farming tips, feature updates, and community stories.
                 </Typography>
                 <Stack direction="row" spacing={1} justifyContent="center">
-                  <IconButton sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }}>
+                  <IconButton sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }} onClick={() => showNotification('Opening Facebook page...', 'info')}>
                     <Facebook />
                   </IconButton>
-                  <IconButton sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }}>
+                  <IconButton sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }} onClick={() => showNotification('Opening Twitter profile...', 'info')}>
                     <Twitter />
                   </IconButton>
-                  <IconButton sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }}>
+                  <IconButton sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }} onClick={() => showNotification('Opening Instagram...', 'info')}>
                     <Instagram />
                   </IconButton>
-                  <IconButton sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }}>
+                  <IconButton sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }} onClick={() => showNotification('Opening LinkedIn...', 'info')}>
                     <LinkedIn />
                   </IconButton>
-                  <IconButton sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }}>
+                  <IconButton sx={{ color: 'white', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } }} onClick={() => showNotification('Opening YouTube channel...', 'info')}>
                     <YouTube />
                   </IconButton>
                 </Stack>

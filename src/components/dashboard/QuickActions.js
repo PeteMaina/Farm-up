@@ -12,9 +12,11 @@ import {
     Notifications,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../../context/NotificationContext';
 
 const QuickActions = () => {
     const navigate = useNavigate();
+    const { showNotification } = useNotification();
 
     const actions = [
         {
@@ -99,7 +101,10 @@ const QuickActions = () => {
                                         },
                                         transition: 'all 0.2s ease-in-out',
                                     }}
-                                    onClick={() => navigate(action.route)}
+                                    onClick={() => {
+                                        showNotification(`Navigating to ${action.label}...`, 'info');
+                                        navigate(action.route);
+                                    }}
                                 >
                                     {React.cloneElement(action.icon, { sx: { fontSize: 32 } })}
                                     <Typography variant="caption" fontWeight={600} textAlign="center">

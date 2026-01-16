@@ -37,11 +37,13 @@ import {
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
+import { useNotification } from '../context/NotificationContext';
 
 const drawerWidth = 280;
 
 const Layout = ({ children, activeItem }) => {
   const navigate = useNavigate();
+  const { showNotification } = useNotification();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -136,7 +138,7 @@ const Layout = ({ children, activeItem }) => {
 
             <Stack direction="row" spacing={1}>
               <Tooltip title="Notifications">
-                <IconButton color="inherit" size="large">
+                <IconButton color="inherit" size="large" onClick={() => showNotification('You have 4 unread notifications', 'info')}>
                   <Badge badgeContent={4} color="error">
                     <Notifications />
                   </Badge>
@@ -189,7 +191,7 @@ const Layout = ({ children, activeItem }) => {
           <ListItemIcon><Help fontSize="small" /></ListItemIcon>
           Help Center
         </MenuItem>
-        <MenuItem onClick={() => { handleMenuClose(); navigate('/'); }}>
+        <MenuItem onClick={() => { handleMenuClose(); navigate('/'); showNotification('Logged out successfully', 'success'); }}>
           <ListItemIcon><Logout fontSize="small" /></ListItemIcon>
           Logout
         </MenuItem>
@@ -207,11 +209,14 @@ const Layout = ({ children, activeItem }) => {
           <Typography variant="h6" gutterBottom>Quick Settings</Typography>
           <Stack spacing={1}>
             <FormControlLabel
-              control={<Switch checked={autoIrrigation} onChange={(e) => setAutoIrrigation(e.target.checked)} />}
+              control={<Switch checked={autoIrrigation} onChange={(e) => {
+                setAutoIrrigation(e.target.checked);
+                showNotification(`Auto Irrigation ${e.target.checked ? 'Enabled' : 'Disabled'}`, 'info');
+              }} />}
               label="Auto Irrigation"
             />
-            <FormControlLabel control={<Switch defaultChecked />} label="Weather Alerts" />
-            <FormControlLabel control={<Switch defaultChecked />} label="Pest Notifications" />
+            <FormControlLabel control={<Switch defaultChecked onChange={(e) => showNotification(`Weather Alerts ${e.target.checked ? 'Enabled' : 'Disabled'}`, 'info')} />} label="Weather Alerts" />
+            <FormControlLabel control={<Switch defaultChecked onChange={(e) => showNotification(`Pest Notifications ${e.target.checked ? 'Enabled' : 'Disabled'}`, 'info')} />} label="Pest Notifications" />
           </Stack>
         </Box>
       </Popover>

@@ -43,9 +43,11 @@ import {
   FilterList,
   Add,
 } from '@mui/icons-material';
+import { useNotification } from '../context/NotificationContext';
 
 const PestControl = () => {
   const [tabValue, setTabValue] = useState(0);
+  const { showNotification } = useNotification();
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -95,7 +97,7 @@ const PestControl = () => {
           <Tab label="Treatments" />
         </Tabs>
         <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid', borderColor: 'divider' }}>
-          <Button startIcon={<Add />} variant="contained" size="small" onClick={() => alert('Add new pest report form...')} >
+          <Button startIcon={<Add />} variant="contained" size="small" onClick={() => showNotification('Opening report form...', 'info')} >
             Report Threat
           </Button>
         </Box>
@@ -200,7 +202,7 @@ const PestControl = () => {
                             />
                           </TableCell>
                           <TableCell>
-                            <IconButton size="small" onClick={() => alert(`Details for ${row.pest} in ${row.field}...`)}>
+                            <IconButton size="small" onClick={() => showNotification(`Details for ${row.pest} in ${row.field}...`, 'info')}>
                               <Info fontSize="small" />
                             </IconButton>
                           </TableCell>

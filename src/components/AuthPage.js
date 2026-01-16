@@ -29,9 +29,11 @@ import {
   Agriculture,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../context/NotificationContext';
 
 const AuthPage = () => {
   const navigate = useNavigate();
+  const { showNotification } = useNotification();
   const theme = useTheme();
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -84,6 +86,7 @@ const AuthPage = () => {
     e.preventDefault();
     if (validateForm()) {
       // For now, just navigate to dashboard
+      showNotification(isSignUp ? 'Account created successfully!' : 'Welcome back!', 'success');
       navigate('/dashboard');
     }
   };
@@ -91,6 +94,7 @@ const AuthPage = () => {
   const handleSocialLogin = (provider) => {
     // Simulate social login
     console.log(`Logging in with ${provider}`);
+    showNotification(`Logged in with ${provider}`, 'success');
     navigate('/dashboard');
   };
 

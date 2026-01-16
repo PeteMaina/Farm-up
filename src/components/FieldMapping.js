@@ -13,8 +13,10 @@ import {
   Chip
 } from '@mui/material';
 import { Map, GpsFixed, Layers, ZoomIn, Edit, Share } from '@mui/icons-material';
+import { useNotification } from '../context/NotificationContext';
 
 const FieldMapping = () => {
+  const { showNotification } = useNotification();
   return (
     <Box sx={{ pb: 4 }}>
       <Box sx={{ mb: 4 }}>
@@ -35,8 +37,8 @@ const FieldMapping = () => {
               avatar={<Avatar sx={{ bgcolor: 'info.main' }}><Map /></Avatar>}
               action={
                 <Stack direction="row" spacing={1}>
-                  <Button size="small" startIcon={<Share />} onClick={() => alert('Sharing field map link...')}>Share</Button>
-                  <Button size="small" startIcon={<Edit />} onClick={() => alert('Entering field map edit mode...')}>Edit</Button>
+                  <Button size="small" startIcon={<Share />} onClick={() => showNotification('Sharing field map link...', 'info')}>Share</Button>
+                  <Button size="small" startIcon={<Edit />} onClick={() => showNotification('Entering field map edit mode...', 'info')}>Edit</Button>
                 </Stack>
               }
             />
@@ -59,13 +61,13 @@ const FieldMapping = () => {
                 </Typography>
               </Box>
               <Stack direction="row" spacing={2} justifyContent="center">
-                <Button variant="outlined" startIcon={<ZoomIn />} onClick={() => alert('Zooming in to map...')}>
+                <Button variant="outlined" startIcon={<ZoomIn />} onClick={() => showNotification('Zooming in to map...', 'info')}>
                   Zoom In
                 </Button>
-                <Button variant="outlined" startIcon={<Layers />} onClick={() => alert('Toggling map layers...')}>
+                <Button variant="outlined" startIcon={<Layers />} onClick={() => showNotification('Toggling map layers...', 'info')}>
                   Layers
                 </Button>
-                <Button variant="outlined" startIcon={<GpsFixed />} onClick={() => alert('Locating current devices on map...')}>
+                <Button variant="outlined" startIcon={<GpsFixed />} onClick={() => showNotification('Locating current devices on map...', 'info')}>
                   Locate Me
                 </Button>
               </Stack>

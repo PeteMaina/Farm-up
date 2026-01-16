@@ -31,9 +31,11 @@ import {
   Download,
 } from '@mui/icons-material';
 import { useLocalization } from '../context/LocalizationContext';
+import { useNotification } from '../context/NotificationContext';
 
 const MarketPrices = () => {
   const { formatCurrency, getUnitLabel } = useLocalization();
+  const { showNotification } = useNotification();
   const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -66,10 +68,10 @@ const MarketPrices = () => {
         </Typography>
       </Box>
       <Stack direction="row" spacing={1} sx={{ mb: 4 }} justifyContent="flex-end">
-        <Button variant="outlined" startIcon={<Refresh />} onClick={() => alert('Market prices updated!')} >
+        <Button variant="outlined" startIcon={<Refresh />} onClick={() => showNotification('Market prices updated!', 'success')} >
           Refresh
         </Button>
-        <Button variant="contained" startIcon={<Download />} onClick={() => alert('Exporting market data...')} >
+        <Button variant="contained" startIcon={<Download />} onClick={() => showNotification('Exporting market data...', 'info')} >
           Export
         </Button>
       </Stack>

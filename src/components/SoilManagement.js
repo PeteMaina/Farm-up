@@ -51,9 +51,11 @@ const cropNutrientsInfo = {
 };
 
 import { useLocalization } from '../context/LocalizationContext';
+import { useNotification } from '../context/NotificationContext';
 
 const SoilManagement = ({ location, cropType = 'default' }) => {
   const { getUnitLabel, convertUnit } = useLocalization();
+  const { showNotification } = useNotification();
   const theme = useTheme();
   const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -183,7 +185,7 @@ const SoilManagement = ({ location, cropType = 'default' }) => {
                   variant="subtitle2"
                   color="primary"
                   sx={{ cursor: 'pointer', textDecoration: 'underline' }}
-                  onClick={() => alert('Professional soil test scheduled! A specialist will contact you shortly.')}
+                  onClick={() => showNotification('Professional soil test scheduled! A specialist will contact you shortly.', 'success')}
                 >
                   Schedule Professional Soil Test &rarr;
                 </Typography>

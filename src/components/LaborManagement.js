@@ -14,8 +14,10 @@ import {
   IconButton
 } from '@mui/material';
 import { People, Work, Schedule, MoreVert, Phone, Email } from '@mui/icons-material';
+import { useNotification } from '../context/NotificationContext';
 
 const LaborManagement = () => {
+  const { showNotification } = useNotification();
   const workers = [
     { name: 'John Smith', role: 'Farm Manager', tasks: 5, status: 'On Shift' },
     { name: 'Maria Garcia', role: 'Irrigation Specialist', tasks: 3, status: 'On Shift' },
@@ -69,8 +71,8 @@ const LaborManagement = () => {
                     <Avatar sx={{ width: 24, height: 24, fontSize: '0.8rem', bgcolor: 'secondary.main' }}>{worker.tasks}</Avatar>
                   </Box>
                   <Stack direction="row" spacing={1} justifyContent="center" sx={{ pt: 1 }}>
-                    <IconButton size="small" color="primary" onClick={() => alert(`Calling ${worker.name}...`)}><Phone fontSize="small" /></IconButton>
-                    <IconButton size="small" color="primary" onClick={() => alert(`Emailing ${worker.name}...`)}><Email fontSize="small" /></IconButton>
+                    <IconButton size="small" color="primary" onClick={() => showNotification(`Calling ${worker.name}...`, 'info')}><Phone fontSize="small" /></IconButton>
+                    <IconButton size="small" color="primary" onClick={() => showNotification(`Emailing ${worker.name}...`, 'info')}><Email fontSize="small" /></IconButton>
                   </Stack>
                 </Stack>
               </CardContent>
@@ -92,10 +94,10 @@ const LaborManagement = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={4} sx={{ textAlign: 'right' }}>
-                  <Button variant="contained" startIcon={<Schedule />} onClick={() => alert('Opening workforce schedule...')}>
+                  <Button variant="contained" startIcon={<Schedule />} onClick={() => showNotification('Opening workforce schedule...', 'info')}>
                     View Schedule
                   </Button>
-                  <Button variant="outlined" sx={{ ml: 2 }} onClick={() => alert('Opening task assignment form...')}>
+                  <Button variant="outlined" sx={{ ml: 2 }} onClick={() => showNotification('Opening task assignment form...', 'info')}>
                     Assign Task
                   </Button>
                 </Grid>

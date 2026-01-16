@@ -28,6 +28,8 @@ import NotFound from './components/NotFound';
 import { getIPLocation, getPreferredLocation } from './utils/locationUtils';
 
 import { LocalizationProvider } from './context/LocalizationContext';
+import { NotificationProvider } from './context/NotificationContext';
+import Notification from './components/Notification';
 
 function App() {
   const [userLocation, setUserLocation] = useState('');
@@ -62,61 +64,64 @@ function App() {
 
   return (
     <LocalizationProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/auth" element={<AuthPage />} />
-            <Route
-              path="/dashboard"
-              element={
-                <Layout activeItem="Dashboard">
-                  <Dashboard
-                    location={locationDetails}
-                    onSetLocation={handleSetUserLocation}
-                    cropType={cropType}
-                    onSetCropType={handleSetCropType}
-                  />
-                </Layout>
-              }
-            />
-            <Route path="/crop-analytics" element={<Layout activeItem="Crop Analytics"><CropAnalytics location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/soil-management" element={<Layout activeItem="Soil Management"><SoilManagement location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/irrigation-control" element={<Layout activeItem="Irrigation Control"><IrrigationControl location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/fertilizer-planner" element={<Layout activeItem="Fertilizer Planner"><FertilizerPlanner location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/yield-prediction" element={<Layout activeItem="Yield Prediction"><YieldPrediction location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/weather-insights" element={<Layout activeItem="Weather Insights"><WeatherInsights location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/pest-control" element={<Layout activeItem="Pest Control"><PestControl location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/market-prices" element={<Layout activeItem="Market Prices"><MarketPrices location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/farm-equipment" element={<Layout activeItem="Farm Equipment"><FarmEquipment location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/labor-management" element={<Layout activeItem="Labor Management"><LaborManagement location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/financial-reports" element={<Layout activeItem="Financial Reports"><FinancialReports location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/iot-sensors" element={<Layout activeItem="IoT Sensors"><IoTSensors location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/field-mapping" element={<Layout activeItem="Field Mapping"><FieldMapping location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="/sustainability" element={<Layout activeItem="Sustainability"><Sustainability location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route
-              path="/settings"
-              element={
-                <Layout activeItem="Settings">
-                  <Settings
-                    location={locationDetails}
-                    onSetLocation={handleSetUserLocation}
-                    cropType={cropType}
-                    onSetCropType={handleSetCropType}
-                    themeMode={themeMode}
-                    onThemeModeChange={handleThemeModeChange}
-                    accentColor={accentColor}
-                    onAccentColorChange={handleAccentColorChange}
-                  />
-                </Layout>
-              }
-            />
-            <Route path="/help-support" element={<Layout activeItem="Help & Support"><HelpSupport location={locationDetails} cropType={cropType} /></Layout>} />
-            <Route path="*" element={<Layout activeItem="404 Not Found"><NotFound /></Layout>} />
-          </Routes>
-        </Router>
-      </ThemeProvider>
+      <NotificationProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Notification />
+          <Router>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <Layout activeItem="Dashboard">
+                    <Dashboard
+                      location={locationDetails}
+                      onSetLocation={handleSetUserLocation}
+                      cropType={cropType}
+                      onSetCropType={handleSetCropType}
+                    />
+                  </Layout>
+                }
+              />
+              <Route path="/crop-analytics" element={<Layout activeItem="Crop Analytics"><CropAnalytics location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/soil-management" element={<Layout activeItem="Soil Management"><SoilManagement location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/irrigation-control" element={<Layout activeItem="Irrigation Control"><IrrigationControl location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/fertilizer-planner" element={<Layout activeItem="Fertilizer Planner"><FertilizerPlanner location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/yield-prediction" element={<Layout activeItem="Yield Prediction"><YieldPrediction location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/weather-insights" element={<Layout activeItem="Weather Insights"><WeatherInsights location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/pest-control" element={<Layout activeItem="Pest Control"><PestControl location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/market-prices" element={<Layout activeItem="Market Prices"><MarketPrices location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/farm-equipment" element={<Layout activeItem="Farm Equipment"><FarmEquipment location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/labor-management" element={<Layout activeItem="Labor Management"><LaborManagement location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/financial-reports" element={<Layout activeItem="Financial Reports"><FinancialReports location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/iot-sensors" element={<Layout activeItem="IoT Sensors"><IoTSensors location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/field-mapping" element={<Layout activeItem="Field Mapping"><FieldMapping location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="/sustainability" element={<Layout activeItem="Sustainability"><Sustainability location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route
+                path="/settings"
+                element={
+                  <Layout activeItem="Settings">
+                    <Settings
+                      location={locationDetails}
+                      onSetLocation={handleSetUserLocation}
+                      cropType={cropType}
+                      onSetCropType={handleSetCropType}
+                      themeMode={themeMode}
+                      onThemeModeChange={handleThemeModeChange}
+                      accentColor={accentColor}
+                      onAccentColorChange={handleAccentColorChange}
+                    />
+                  </Layout>
+                }
+              />
+              <Route path="/help-support" element={<Layout activeItem="Help & Support"><HelpSupport location={locationDetails} cropType={cropType} /></Layout>} />
+              <Route path="*" element={<Layout activeItem="404 Not Found"><NotFound /></Layout>} />
+            </Routes>
+          </Router>
+        </ThemeProvider>
+      </NotificationProvider>
     </LocalizationProvider>
   );
 }

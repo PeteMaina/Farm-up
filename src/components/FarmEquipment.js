@@ -23,8 +23,10 @@ import {
   MoreVert,
   Add
 } from '@mui/icons-material';
+import { useNotification } from '../context/NotificationContext';
 
 const FarmEquipment = () => {
+  const { showNotification } = useNotification();
   const equipment = [
     { name: 'John Deere Tractor', status: 'Operational', maintenance: 'Due in 45 days', location: 'Barn A', type: 'Tractor' },
     { name: 'Irrigation Pump', status: 'Maintenance Required', maintenance: 'Overdue', location: 'Field B', type: 'Irrigation' },
@@ -61,7 +63,7 @@ const FarmEquipment = () => {
             Monitor status, maintenance schedules, and inventory.
           </Typography>
         </Box>
-        <Button variant="contained" startIcon={<Add />} onClick={() => alert('Form to add new equipment...')}>
+        <Button variant="contained" startIcon={<Add />} onClick={() => showNotification('Form to add new equipment...', 'info')}>
           Add Equipment
         </Button>
       </Stack>
@@ -104,7 +106,7 @@ const FarmEquipment = () => {
                     </Typography>
                   </Box>
                 </Stack>
-                <Button variant="outlined" size="small" fullWidth sx={{ mt: 3 }} onClick={() => alert(`Viewing details for ${item.name}...`)}>
+                <Button variant="outlined" size="small" fullWidth sx={{ mt: 3 }} onClick={() => showNotification(`Viewing details for ${item.name}...`, 'info')}>
                   Details
                 </Button>
               </CardContent>
@@ -131,7 +133,7 @@ const FarmEquipment = () => {
                   <Typography variant="caption" color="text.secondary">Due: Next Monday</Typography>
                 </Box>
               </Stack>
-              <Button variant="contained" startIcon={<Build />} fullWidth onClick={() => alert('Opening full maintenance schedule...')}>
+              <Button variant="contained" startIcon={<Build />} fullWidth onClick={() => showNotification('Opening full maintenance schedule...', 'info')}>
                 View Full Schedule
               </Button>
             </CardContent>

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Typography, Box, Grid, Card, CardContent, CardHeader, Button, TextField, Avatar, Divider, Stack } from '@mui/material';
 import { Science, Grass as LocalFlorist, CalendarMonth } from '@mui/icons-material';
+import { useNotification } from '../context/NotificationContext';
 
 const FertilizerPlanner = () => {
+  const { showNotification } = useNotification();
   return (
     <Box sx={{ pb: 4 }}>
       <Box sx={{ mb: 4 }}>
@@ -40,7 +42,7 @@ const FertilizerPlanner = () => {
                   InputLabelProps={{ shrink: true }}
                   variant="outlined"
                 />
-                <Button variant="contained" size="large" fullWidth onClick={() => alert('Fertilizer application scheduled!')}>
+                <Button variant="contained" size="large" fullWidth onClick={() => showNotification('Fertilizer application scheduled!', 'success')}>
                   Schedule Application
                 </Button>
               </Stack>
@@ -72,7 +74,7 @@ const FertilizerPlanner = () => {
                   </Grid>
                 </Grid>
               </Box>
-              <Button variant="outlined" startIcon={<CalendarMonth />} fullWidth onClick={() => alert('Viewing full schedule...')}>
+              <Button variant="outlined" startIcon={<CalendarMonth />} fullWidth onClick={() => showNotification('Viewing full schedule...', 'info')}>
                 View Full Schedule
               </Button>
             </CardContent>

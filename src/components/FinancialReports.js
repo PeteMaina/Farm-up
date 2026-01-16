@@ -48,9 +48,11 @@ import {
   Cell,
 } from 'recharts';
 import { useLocalization } from '../context/LocalizationContext';
+import { useNotification } from '../context/NotificationContext';
 
 const FinancialReports = () => {
   const { formatCurrency } = useLocalization();
+  const { showNotification } = useNotification();
   const [tabValue, setTabValue] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -98,12 +100,12 @@ const FinancialReports = () => {
             setLoading(true);
             setTimeout(() => {
               setLoading(false);
-              alert('Financial reports updated!');
+              showNotification('Financial reports updated!', 'success');
             }, 1000);
           }} disabled={loading}>
             {loading ? 'Refreshing...' : 'Refresh'}
           </Button>
-          <Button variant="contained" startIcon={<Download />} onClick={() => alert('PDF report is being generated and will download shortly...')}>
+          <Button variant="contained" startIcon={<Download />} onClick={() => showNotification('PDF report is being generated and will download shortly...', 'info')}>
             Download PDF
           </Button>
         </Stack>

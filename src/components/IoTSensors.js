@@ -24,8 +24,10 @@ import {
   Refresh,
   Add
 } from '@mui/icons-material';
+import { useNotification } from '../context/NotificationContext';
 
 const IoTSensors = () => {
+  const { showNotification } = useNotification();
   const sensors = [
     { name: 'Soil Moisture 1', status: 'Online', battery: 85, location: 'Field A', signal: 'Strong', type: 'Moisture' },
     { name: 'Temp Sensor A', status: 'Online', battery: 92, location: 'Greenhouse', signal: 'Excellent', type: 'Temperature' },
@@ -47,8 +49,8 @@ const IoTSensors = () => {
           </Typography>
         </Box>
         <Stack direction="row" spacing={2}>
-          <IconButton color="primary" onClick={() => alert('Refreshing sensor data...')}><Refresh /></IconButton>
-          <IconButton color="primary" onClick={() => alert('Add new sensor form...')}><Add /></IconButton>
+          <IconButton color="primary" onClick={() => showNotification('Refreshing sensor data...', 'info')}><Refresh /></IconButton>
+          <IconButton color="primary" onClick={() => showNotification('Add new sensor form...', 'info')}><Add /></IconButton>
         </Stack>
       </Stack>
 

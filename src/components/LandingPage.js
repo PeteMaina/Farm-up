@@ -37,8 +37,11 @@ function HideOnScroll({ children }) {
   );
 }
 
+import { useNotification } from '../context/NotificationContext';
+
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { showNotification } = useNotification();
   const theme = useTheme();
 
   const features = [
@@ -108,9 +111,9 @@ const LandingPage = () => {
               Agrowise
             </Typography>
             <Stack direction="row" spacing={1} sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button color="inherit">Features</Button>
-              <Button color="inherit">Pricing</Button>
-              <Button color="inherit">About</Button>
+              <Button color="inherit" onClick={() => showNotification('Scrolling to Features...', 'info')}>Features</Button>
+              <Button color="inherit" onClick={() => showNotification('Scrolling to Pricing...', 'info')}>Pricing</Button>
+              <Button color="inherit" onClick={() => showNotification('Scrolling to About...', 'info')}>About</Button>
               <Button variant="contained" onClick={() => navigate('/auth')} sx={{ ml: 2 }}>
                 Sign In
               </Button>
@@ -155,6 +158,7 @@ const LandingPage = () => {
                   variant="outlined"
                   size="large"
                   startIcon={<PlayArrow />}
+                  onClick={() => showNotification('Opening demo video...', 'info')}
                   sx={{ px: 4, py: 1.5, fontSize: '1.1rem' }}
                 >
                   Watch Demo
@@ -317,9 +321,9 @@ const LandingPage = () => {
                 PRODUCT
               </Typography>
               <Stack spacing={1}>
-                <Typography variant="body2" sx={{ cursor: 'pointer' }}>Features</Typography>
-                <Typography variant="body2" sx={{ cursor: 'pointer' }}>Pricing</Typography>
-                <Typography variant="body2" sx={{ cursor: 'pointer' }}>API</Typography>
+                <Typography variant="body2" sx={{ cursor: 'pointer' }} onClick={() => showNotification('Navigating to Features...', 'info')}>Features</Typography>
+                <Typography variant="body2" sx={{ cursor: 'pointer' }} onClick={() => showNotification('Navigating to Pricing...', 'info')}>Pricing</Typography>
+                <Typography variant="body2" sx={{ cursor: 'pointer' }} onClick={() => showNotification('Navigating to API docs...', 'info')}>API</Typography>
               </Stack>
             </Grid>
             <Grid item xs={6} md={2}>
@@ -327,9 +331,9 @@ const LandingPage = () => {
                 COMPANY
               </Typography>
               <Stack spacing={1}>
-                <Typography variant="body2" sx={{ cursor: 'pointer' }}>About</Typography>
-                <Typography variant="body2" sx={{ cursor: 'pointer' }}>Blog</Typography>
-                <Typography variant="body2" sx={{ cursor: 'pointer' }}>Careers</Typography>
+                <Typography variant="body2" sx={{ cursor: 'pointer' }} onClick={() => showNotification('Navigating to About Us...', 'info')}>About</Typography>
+                <Typography variant="body2" sx={{ cursor: 'pointer' }} onClick={() => showNotification('Navigating to Blog...', 'info')}>Blog</Typography>
+                <Typography variant="body2" sx={{ cursor: 'pointer' }} onClick={() => showNotification('Navigating to Careers...', 'info')}>Careers</Typography>
               </Stack>
             </Grid>
             <Grid item xs={6} md={2}>
@@ -337,9 +341,9 @@ const LandingPage = () => {
                 SUPPORT
               </Typography>
               <Stack spacing={1}>
-                <Typography variant="body2" sx={{ cursor: 'pointer' }}>Help Center</Typography>
-                <Typography variant="body2" sx={{ cursor: 'pointer' }}>Contact</Typography>
-                <Typography variant="body2" sx={{ cursor: 'pointer' }}>Status</Typography>
+                <Typography variant="body2" sx={{ cursor: 'pointer' }} onClick={() => showNotification('Navigating to Help Center...', 'info')}>Help Center</Typography>
+                <Typography variant="body2" sx={{ cursor: 'pointer' }} onClick={() => showNotification('Opening Contact page...', 'info')}>Contact</Typography>
+                <Typography variant="body2" sx={{ cursor: 'pointer' }} onClick={() => showNotification('Checking System Status...', 'info')}>Status</Typography>
               </Stack>
             </Grid>
           </Grid>

@@ -54,10 +54,12 @@ import {
   Search,
   Add,
 } from '@mui/icons-material';
+import { useNotification } from '../context/NotificationContext';
 
 const CropAnalytics = () => {
   const [tabValue, setTabValue] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { showNotification } = useNotification();
   const theme = useTheme();
 
   const handleTabChange = (event, newValue) => {
@@ -68,7 +70,7 @@ const CropAnalytics = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      alert('Crop analytics data refreshed!');
+      showNotification('Crop analytics data refreshed!', 'success');
     }, 1000);
   };
 
@@ -80,7 +82,8 @@ const CropAnalytics = () => {
     link.href = url;
     link.download = 'crop_analytics_export.json';
     link.click();
-    alert('Exporting crop analytics data...');
+    link.click();
+    showNotification('Exporting crop analytics data...', 'info');
   };
 
   const cropData = [

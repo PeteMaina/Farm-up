@@ -15,8 +15,10 @@ import {
   Restore, SaveAlt, Share, VpnKey, DevicesOther, History, Assessment, GpsFixed
 } from '@mui/icons-material';
 import { useLocalization } from '../context/LocalizationContext';
+import { useNotification } from '../context/NotificationContext';
 
 const Settings = ({ themeMode, onThemeModeChange, accentColor, onAccentColorChange }) => {
+  const { showNotification } = useNotification();
   const [tabValue, setTabValue] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -162,12 +164,12 @@ const Settings = ({ themeMode, onThemeModeChange, accentColor, onAccentColorChan
   const handleSaveProfile = () => {
     // Simulate API call
     console.log('Saving profile:', profile);
-    alert('Profile saved successfully!');
+    showNotification('Profile saved successfully!', 'success');
   };
 
   const handleUpdateFarm = () => {
     console.log('Updating farm details:', farmDetails);
-    alert('Farm details updated across the platform!');
+    showNotification('Farm details updated across the platform!', 'success');
   };
 
   const handlePhotoUpload = () => {
@@ -181,7 +183,7 @@ const Settings = ({ themeMode, onThemeModeChange, accentColor, onAccentColorChan
         reader.onload = (readerEvent) => {
           // In a real app, you'd upload this to a server
           console.log('Photo uploaded:', file.name);
-          alert('Profile picture updated!');
+          showNotification('Profile picture updated!', 'success');
         };
         reader.readAsDataURL(file);
       }
@@ -199,19 +201,20 @@ const Settings = ({ themeMode, onThemeModeChange, accentColor, onAccentColorChan
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    alert(`Data exported successfully in ${dataExport.format.toUpperCase()} format!`);
+    document.body.removeChild(link);
+    showNotification(`Data exported successfully in ${dataExport.format.toUpperCase()} format!`, 'success');
   };
 
   const handleApplyPreferences = () => {
     console.log('Applying preferences:', preferences);
-    alert('System preferences updated!');
+    showNotification('System preferences updated!', 'success');
   };
 
   const handleBackupNow = () => {
     console.log('Running manual backup...');
     setTimeout(() => {
       setBackup({ ...backup, lastBackup: new Date().toLocaleString() });
-      alert('Manual backup completed successfully!');
+      showNotification('Manual backup completed successfully!', 'success');
     }, 1500);
   };
 
@@ -579,7 +582,7 @@ const Settings = ({ themeMode, onThemeModeChange, accentColor, onAccentColorChan
                   ))}
                 </Grid>
                 <Box mt={3}>
-                  <Button variant="contained" fullWidth>Save Notification Preferences</Button>
+                  <Button variant="contained" fullWidth onClick={() => showNotification('Notification preferences saved', 'success')}>Save Notification Preferences</Button>
                 </Box>
               </CardContent>
             </Card>
@@ -595,8 +598,8 @@ const Settings = ({ themeMode, onThemeModeChange, accentColor, onAccentColorChan
                   Send a test notification to verify your settings
                 </Typography>
                 <Stack direction="row" spacing={2}>
-                  <Button variant="outlined" fullWidth startIcon={<Notifications />}>Send Email Test</Button>
-                  <Button variant="outlined" fullWidth startIcon={<Smartphone />}>Send SMS Test</Button>
+                  <Button variant="outlined" fullWidth startIcon={<Notifications />} onClick={() => showNotification('This is a test email notification', 'info')}>Send Email Test</Button>
+                  <Button variant="outlined" fullWidth startIcon={<Smartphone />} onClick={() => showNotification('This is a test SMS notification', 'info')}>Send SMS Test</Button>
                 </Stack>
               </CardContent>
             </Card>

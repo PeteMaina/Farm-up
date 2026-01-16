@@ -45,9 +45,11 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@mui/material';
+import { useNotification } from '../context/NotificationContext';
 
 const Sidebar = ({ activeItem }) => {
   const navigate = useNavigate();
+  const { showNotification } = useNotification();
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, active: activeItem === 'Dashboard', badge: null },
@@ -126,7 +128,10 @@ const Sidebar = ({ activeItem }) => {
           fullWidth
           variant="outlined"
           startIcon={<Logout />}
-          onClick={() => navigate('/')}
+          onClick={() => {
+            showNotification('Signed out successfully', 'success');
+            navigate('/');
+          }}
           sx={{ borderRadius: 3 }}
         >
           Sign Out
