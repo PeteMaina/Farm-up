@@ -1,120 +1,95 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Typography,
   Box,
   Grid,
-  Card,
-  CardContent,
-  CardHeader,
   Button,
-  Avatar,
-  Divider,
   Stack,
-  Chip
+  Fade,
+  Container
 } from '@mui/material';
-import { Map, GpsFixed, Layers, ZoomIn, Edit, Share } from '@mui/icons-material';
+import { Add, Download, Settings } from '@mui/icons-material';
 import { useNotification } from '../context/NotificationContext';
+import FieldMap from './field-mapping/FieldMap';
+import FieldStats from './field-mapping/FieldStats';
+import FieldList from './field-mapping/FieldList';
 
 const FieldMapping = () => {
   const { showNotification } = useNotification();
+  const [selectedField, setSelectedField] = useState(null);
+
+  const handleFieldSelect = (field) => {
+    setSelectedField(field);
+    showNotification(`Selected ${field.name}`, 'info');
+  };
+
   return (
-    <Box sx={{ pb: 4 }}>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" gutterBottom fontWeight={700} color="primary.main">
-          Field Mapping
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Interactive field boundaries, soil zones, and crop distribution maps.
-        </Typography>
+    <Container maxWidth="xl" sx={{ pb: 4 }}>
+      {/* Header Section */}
+      <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box>
+          <Typography variant="h4" fontWeight={800} color="text.primary" sx={{ mb: 1, letterSpacing: '-0.02em' }}>
+            Field Mapping
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Visualize and manage your farm's geography and soil health.
+          </Typography>
+        </Box>
+        <Stack direction="row" spacing={2}>
+          <Button variant="outlined" startIcon={<Download />} onClick={() => showNotification('Exporting map data...', 'success')}>
+            Export Data
+          </Button>
+          <Button variant="contained" startIcon={<Add />} onClick={() => showNotification('Opening new field wizard...', 'info')} sx={{ borderRadius: 2, px: 3 }}>
+            Add Field
+          </Button>
+        </Stack>
       </Box>
 
+      {/* Main Content Grid */}
       <Grid container spacing={3}>
-        <Grid item xs={12} md={8}>
-          <Card sx={{ height: '100%' }}>
-            <CardHeader
-              title="Field Map"
-              subheader="Viewing: Main Farm"
-              avatar={<Avatar sx={{ bgcolor: 'info.main' }}><Map /></Avatar>}
-              action={
-                <Stack direction="row" spacing={1}>
-                  <Button size="small" startIcon={<Share />} onClick={() => showNotification('Sharing field map link...', 'info')}>Share</Button>
-                  <Button size="small" startIcon={<Edit />} onClick={() => showNotification('Entering field map edit mode...', 'info')}>Edit</Button>
-                </Stack>
-              }
-            />
-            <Divider />
-            <CardContent>
-              <Box sx={{
-                height: 450,
-                bgcolor: 'grey.100',
-                borderRadius: 2,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                mb: 2,
-                border: '1px dashed #ccc'
-              }}>
-                <Typography variant="body1" color="text.secondary">
-                  Interactive Map Component Placeholder
-                  <br />
-                  (Google Maps / Leaflet Integration)
-                </Typography>
-              </Box>
-              <Stack direction="row" spacing={2} justifyContent="center">
-                <Button variant="outlined" startIcon={<ZoomIn />} onClick={() => showNotification('Zooming in to map...', 'info')}>
-                  Zoom In
-                </Button>
-                <Button variant="outlined" startIcon={<Layers />} onClick={() => showNotification('Toggling map layers...', 'info')}>
-                  Layers
-                </Button>
-                <Button variant="outlined" startIcon={<GpsFixed />} onClick={() => showNotification('Locating current devices on map...', 'info')}>
-                  Locate Me
-                </Button>
-              </Stack>
-            </CardContent>
-          </Card>
+
+        {/* Left Column: Interactive Map & Stats */}
+        <Grid item xs={12} lg={8}>
+          <Stack spacing={3}>
+            <FieldMap onFieldSelect={handleFieldSelect} />
+            <FieldStats />
+          </Stack>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Card sx={{ height: '100%' }}>
-            <CardHeader
-              title="Field Statistics"
-              avatar={<Avatar sx={{ bgcolor: 'success.main' }}><Layers /></Avatar>}
-            />
-            <Divider />
-            <CardContent>
-              <Stack spacing={2}>
-                <Box>
-                  <Typography variant="subtitle2" gutterBottom>Total Area</Typography>
-                  <Typography variant="h4" color="primary">250 <Typography component="span" variant="h6">ha</Typography></Typography>
-                </Box>
-                <Divider />
-                <Box>
-                  <Typography variant="subtitle2" gutterBottom>Active Crops</Typography>
-                  <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                    <Chip label="Corn (120 ha)" color="success" variant="outlined" />
-                    <Chip label="Wheat (80 ha)" color="warning" variant="outlined" />
-                    <Chip label="Soy (50 ha)" color="secondary" variant="outlined" />
-                  </Stack>
-                </Box>
-                <Divider />
-                <Box>
-                  <Typography variant="subtitle2" gutterBottom>Soil Zones</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    3 distinct soil types identified.
-                    <br />
-                    - Loam (60%)
-                    <br />
-                    - Clay (30%)
-                    <br />
-                    - Sandy (10%)
-                  </Typography>
-                </Box>
-              </Stack>
-            </CardContent>
-          </Card>
+
+        {/* Right Column: Field List & Details */}
+        <Grid item xs={12} lg={4}>
+          <Stack spacing={3}>
+            <FieldList onSelect={handleFieldSelect} />
+
+            {/* Contextual Action Card */}
+            <Box sx={{
+              p: 3,
+              bgcolor: 'primary.main',
+              color: 'primary.contrastText',
+              borderRadius: 3,
+              backgroundImage: 'linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2) 75%, transparent 75%, transparent)',
+              backgroundSize: '20px 20px'
+            }}>
+              <Typography variant="h6" fontWeight={700} gutterBottom>
+                actions
+              </Typography>
+              <Typography variant="body2" sx={{ opacity: 0.9, mb: 2 }}>
+                Need to update soil boundaries or change crop types? Access the advanced editor.
+              </Typography>
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<Settings />}
+                onClick={() => showNotification('Opening advanced editor...', 'warning')}
+                fullWidth
+              >
+                Open Editor
+              </Button>
+            </Box>
+          </Stack>
         </Grid>
       </Grid>
-    </Box>
+    </Container>
   );
 };
 
