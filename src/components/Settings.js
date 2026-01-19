@@ -48,7 +48,7 @@ const Settings = ({ themeMode, onThemeModeChange, accentColor, onAccentColorChan
 
   const {
     city, country, continent, currency, units, locale, isSmartDetect,
-    updatePreference
+    updatePreference, formatCurrency
   } = useLocalization();
 
   const [preferences, setPreferences] = useState({
@@ -317,14 +317,14 @@ const Settings = ({ themeMode, onThemeModeChange, accentColor, onAccentColorChan
                     <Typography variant="subtitle2" color="text.secondary">Current Plan</Typography>
                     <Stack direction="row" alignItems="center" spacing={1} mt={1}>
                       <Chip label="Professional" color="primary" />
-                      <Typography variant="h6" fontWeight={700}>$49/month</Typography>
+                      <Typography variant="h6" fontWeight={700}>{formatCurrency(49)}/month</Typography>
                     </Stack>
                   </Box>
                   <FormControl fullWidth>
                     <InputLabel>Billing Cycle</InputLabel>
                     <Select value={subscription.billing} label="Billing Cycle" onChange={(e) => setSubscription({ ...subscription, billing: e.target.value })}>
-                      <MenuItem value="monthly">Monthly - $49/mo</MenuItem>
-                      <MenuItem value="annual">Annual - $490/yr (Save 17%)</MenuItem>
+                      <MenuItem value="monthly">Monthly - {formatCurrency(49)}/mo</MenuItem>
+                      <MenuItem value="annual">Annual - {formatCurrency(490)}/yr (Save 17%)</MenuItem>
                     </Select>
                   </FormControl>
                   <Alert severity="info">Next billing date: {subscription.nextBilling}</Alert>

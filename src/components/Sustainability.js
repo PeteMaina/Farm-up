@@ -1,4 +1,5 @@
 import { useNotification } from '../context/NotificationContext';
+import { useLocalization } from '../context/LocalizationContext';
 import React, { useState } from 'react';
 import {
   Typography,
@@ -54,6 +55,7 @@ import {
 
 const Sustainability = () => {
   const { showNotification } = useNotification();
+  const { formatCurrency } = useLocalization();
   const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -140,7 +142,7 @@ const Sustainability = () => {
               <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
                 <Box>
                   <Typography variant="subtitle2" color="text.secondary">Est. Carbon Credits</Typography>
-                  <Typography variant="h3" fontWeight={700} color="primary.main">$12,450</Typography>
+                  <Typography variant="h3" fontWeight={700} color="primary.main">{formatCurrency(12450)}</Typography>
                 </Box>
                 <Avatar sx={{ bgcolor: 'primary.light' }}><MonetizationOn color="primary" /></Avatar>
               </Stack>
@@ -231,7 +233,7 @@ const Sustainability = () => {
                     variant="outlined"
                   />
                   <Typography variant="caption" display="block" sx={{ mt: 1, color: 'text.secondary' }}>
-                    Solar installation saved $2,300 this year.
+                    Solar installation saved {formatCurrency(2300)} this year.
                   </Typography>
                 </Box>
               </CardContent>

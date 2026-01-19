@@ -23,6 +23,7 @@ import MarketPrices from './dashboard/MarketPrices';
 import LaborManagement from './dashboard/LaborManagement';
 import AlertsActivity from './dashboard/AlertsActivity';
 import QuickActions from './dashboard/QuickActions';
+import LocalNews from './dashboard/LocalNews';
 
 const Dashboard = ({
   location,
@@ -161,7 +162,10 @@ const Dashboard = ({
               <WeatherWidget location={location} />
             </Grid>
             <Grid item xs={12} lg={4}>
-              <AlertsActivity />
+              <Stack spacing={3}>
+                <AlertsActivity />
+                <LocalNews />
+              </Stack>
             </Grid>
           </Grid>
         </Fade>
