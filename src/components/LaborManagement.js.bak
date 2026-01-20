@@ -1,0 +1,426 @@
+import React, { useState } from 'react';
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Button,
+  Avatar,
+  Chip,
+  IconButton,
+  Stepper,
+  Step,
+  StepLabel,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Switch,
+  FormControlLabel,
+  LinearProgress,
+  Tabs,
+  Tab,
+  Paper
+} from '@mui/material';
+import {
+  People,
+  Work,
+  TrendingUp,
+  MonetizationOn,
+  Warning,
+  BarChart as BarChartIcon,
+  Timeline,
+  Add,
+  FilterList,
+  Search
+} from '@mui/icons-material';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
+  Legend,
+  ResponsiveContainer,
+  Cell
+} from 'recharts';
+import { useNotification } from '../context/NotificationContext';
+
+// --- Mock Data Generators ---
+const generateWorkers = (count, roles, payType) => {
+  const firstNames = ['James', 'Mary', 'John', 'Patricia', 'Robert', 'Jennifer', 'Michael', 'Linda', 'William', 'Elizabeth', 'David', 'Barbara', 'Richard', 'Susan', 'Joseph', 'Jessica', 'Thomas', 'Sarah', 'Charles', 'Karen'];
+  const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin'];
+
+  return Array.from({ length: count }, (_, i) => {
+    const role = roles[Math.floor(Math.random() * roles.length)];
+    const performance = Math.floor(Math.random() * 41) + 60; // 60-100
+    const status = Math.random() > 0.8 ? 'Absent' : (Math.random() > 0.6 ? 'Break' : 'Active');
+
+    return {
+      id: i + 1,
+      name: `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`,
+      role: role,
+      hourlyRate: payType === 'Hourly' ? (Math.random() * 15 + 15).toFixed(2) : 0,
+      performance: performance,
+      status: status,
+      hoursWorked: (Math.random() * 40).toFixed(1),
+      safetyIncidents: Math.random() > 0.9 ? 1 : 0
+    };
+  });
+};
+
+const LaborManagement = () => {
+  const { showNotification } = useNotification();
+
+  // State for Onboarding
+  const [activeStep, setActiveStep] = useState(0);
+  const [isOnboarding, setIsOnboarding] = useState(true);
+
+  // Form Data
+  const [formData, setFormData] = useState({
+    farmName: '',
+    farmType: 'Crop',
+    totalWorkers: 20,
+    roles: ['Harvester', 'Driver', 'Packer'],
+    payType: 'Hourly',
+    shiftLength: 8,
+    overtimeAllowed: true
+  });
+
+  // Dashboard Data
+  const [workers, setWorkers] = useState([]);
+  const [tabValue, setTabValue] = useState(0);
+
+  // --- Handlers ---
+  const handleNext = () => {
+    setActiveStep((prev) => prev + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prev) => prev - 1);
+  };
+
+  const handleFinishOnboarding = () => {
+    // Generate simulated data based on inputs
+    const generatedWorkers = generateWorkers(formData.totalWorkers, formData.roles, formData.payType);
+    setWorkers(generatedWorkers);
+    setIsOnboarding(false);
+    showNotification('Workspace populated with custom labor data!', 'success');
+  };
+
+  const handleInputChange = (field, value) => {
+    setFormData({ ...formData, [field]: value });
+  };
+
+  // --- Render Steps ---
+  const renderOnboardingStep = (step) => {
+    switch (step) {
+      case 0:
+        return (
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>Farm Basics</Typography>
+              <Typography color="text.secondary" paragraph>Tell us a bit about your operation to tailor the labor management system.</Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Farm Name"
+                value={formData.farmName}
+                onChange={(e) => handleInputChange('farmName', e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormControl fullWidth>
+                <InputLabel>Primary Operation Type</InputLabel>
+                <Select
+                  value={formData.farmType}
+                  label="Primary Operation Type"
+                  onChange={(e) => handleInputChange('farmType', e.target.value)}
+                >
+                  <MenuItem value="Crop">Crop Farming</MenuItem>
+                  <MenuItem value="Livestock">Livestock</MenuItem>
+                  <MenuItem value="Mixed">Mixed</MenuItem>
+                  <MenuItem value="Orchard">Orchard/Vineyard</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        );
+      case 1:
+        return (
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant="h6">Workforce Structure</Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                type="number"
+                label="Estimated Workforce Size"
+                value={formData.totalWorkers}
+                onChange={(e) => handleInputChange('totalWorkers', parseInt(e.target.value) || 0)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormControl fullWidth>
+                <InputLabel>Compensation Model</InputLabel>
+                <Select
+                  value={formData.payType}
+                  label="Compensation Model"
+                  onChange={(e) => handleInputChange('payType', e.target.value)}
+                >
+                  <MenuItem value="Hourly">Hourly Rate</MenuItem>
+                  <MenuItem value="PieceRate">Piece Rate</MenuItem>
+                  <MenuItem value="Salaried">Salaried</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="subtitle2" gutterBottom>Common Roles</Typography>
+              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                {['Harvester', 'Planter', 'Equipment Operator', 'Supervisor', 'Packer', 'Maintenance', 'Scout'].map((role) => (
+                  <Chip
+                    key={role}
+                    label={role}
+                    color={formData.roles.includes(role) ? "primary" : "default"}
+                    onClick={() => {
+                      const newRoles = formData.roles.includes(role)
+                        ? formData.roles.filter(r => r !== role)
+                        : [...formData.roles, role];
+                      handleInputChange('roles', newRoles);
+                    }}
+                  />
+                ))}
+              </Box>
+            </Grid>
+          </Grid>
+        );
+      case 2:
+        return (
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant="h6">Shifts & Policies</Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                type="number"
+                label="Standard Shift Length (Hours)"
+                value={formData.shiftLength}
+                onChange={(e) => handleInputChange('shiftLength', parseInt(e.target.value) || 0)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={formData.overtimeAllowed}
+                    onChange={(e) => handleInputChange('overtimeAllowed', e.target.checked)}
+                  />
+                }
+                label="Allow Overtime Tracking"
+              />
+            </Grid>
+          </Grid>
+        );
+      default:
+        return <Typography>Unknown Step</Typography>;
+    }
+  };
+
+  // --- Dashboard SubComponents ---
+
+  const StatusCard = ({ title, value, subtext, icon, color }) => (
+    <Card sx={{ height: '100%' }}>
+      <CardContent>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+          <Box>
+            <Typography color="text.secondary" variant="subtitle2" gutterBottom>{title}</Typography>
+            <Typography variant="h4" fontWeight="700">{value}</Typography>
+          </Box>
+          <Avatar sx={{ bgcolor: `${color}.light`, color: `${color}.main`, width: 48, height: 48 }}>
+            {icon}
+          </Avatar>
+        </Box>
+        <Typography variant="body2" color={subtext.includes('+') ? 'success.main' : 'error.main'} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          {subtext.includes('+') ? <TrendingUp fontSize="small" /> : <Timeline fontSize="small" />}
+          {subtext}
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+
+  if (isOnboarding) {
+    return (
+      <Box sx={{ maxWidth: 800, mx: 'auto', mt: 4, p: 2 }}>
+        <Card sx={{ p: 4 }}>
+          <Box sx={{ mb: 4, textAlign: 'center' }}>
+            <Avatar sx={{ width: 64, height: 64, mx: 'auto', mb: 2, bgcolor: 'primary.main' }}>
+              <People />
+            </Avatar>
+            <Typography variant="h4" gutterBottom>Welcome to Labor Manager</Typography>
+            <Typography color="text.secondary">Let's set up your workforce dashboard to reflect your farm's reality.</Typography>
+          </Box>
+
+          <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 6 }}>
+            {['Operation Details', 'Workforce', 'Shifts & Rules'].map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+
+          <Box sx={{ minHeight: 200 }}>
+            {renderOnboardingStep(activeStep)}
+          </Box>
+
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4, gap: 2 }}>
+            <Button disabled={activeStep === 0} onClick={handleBack}>Back</Button>
+            {activeStep === 2 ? (
+              <Button variant="contained" onClick={handleFinishOnboarding} size="large">Generate Dashboard</Button>
+            ) : (
+              <Button variant="contained" onClick={handleNext}>Next</Button>
+            )}
+          </Box>
+        </Card>
+      </Box>
+    );
+  }
+
+  // --- Main Dashboard UI ---
+  const activeWorkers = workers.filter(w => w.status === 'Active').length;
+  const avgEfficiency = Math.round(workers.reduce((acc, curr) => acc + curr.performance, 0) / workers.length);
+  const weeklyPayroll = workers.reduce((acc, curr) => acc + (parseFloat(curr.hourlyRate) * parseFloat(curr.hoursWorked)), 0);
+
+  const efficiencyData = workers.slice(0, 10).map(w => ({
+    name: w.name.split(' ')[0],
+    efficiency: w.performance
+  }));
+
+  return (
+    <Box sx={{ pb: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+        <Box>
+          <Typography variant="h4" fontWeight={700} color="primary.main">
+            Labor Management
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Overview for {formData.farmName || 'Your Farm'}
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button variant="outlined" startIcon={<FilterList />}>Filter</Button>
+          <Button variant="contained" startIcon={<Add />} onClick={() => showNotification('Add Worker Modal placeholder', 'info')}>Add Worker</Button>
+        </Box>
+      </Box>
+
+      {/* KPI Cards */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatusCard
+            title="Active Workforce"
+            value={`${activeWorkers} / ${workers.length}`}
+            subtext={`${Math.round((activeWorkers / workers.length) * 100)}% Utilization`}
+            icon={<People />}
+            color="primary"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatusCard
+            title="Avg. Efficiency"
+            value={`${avgEfficiency}%`}
+            subtext="+12% from last week"
+            icon={<TrendingUp />}
+            color="success"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatusCard
+            title="Est. Weekly Payroll"
+            value={`$${weeklyPayroll.toLocaleString()}`}
+            subtext="Within budget"
+            icon={<MonetizationOn />}
+            color="warning"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatusCard
+            title="Compliance Incidents"
+            value="1"
+            subtext="Needs Attention"
+            icon={<Warning />}
+            color="error"
+          />
+        </Grid>
+      </Grid>
+
+      {/* Analytics Section */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} md={8}>
+          <Card sx={{ height: 400 }}>
+            <CardContent sx={{ height: '100%' }}>
+              <Typography variant="h6" gutterBottom>Efficiency by Worker (Top 10)</Typography>
+              <ResponsiveContainer width="100%" height="90%">
+                <BarChart data={efficiencyData}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <RechartsTooltip />
+                  <Bar dataKey="efficiency" fill="#4caf50" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          {/* PieChart removed for debugging */}
+          <Card sx={{ height: 400 }}>
+            <CardContent>
+              <Typography>Pie Chart temporarily disabled for debugging</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* Main Content Tabs */}
+      <Card>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={tabValue} onChange={(e, v) => setTabValue(v)}>
+            <Tab label="Workforce Roster" />
+            <Tab label="Schedule & Shifts" />
+            <Tab label="Performance Reviews" />
+          </Tabs>
+        </Box>
+        <Box sx={{ p: 2 }}>
+          {tabValue === 0 && (
+            <>
+              <Box sx={{ display: 'flex', gap: 2, mb: 2, alignItems: 'center' }}>
+                <TextField
+                  size="small"
+                  placeholder="Search workers..."
+                  InputProps={{ startAdornment: <Search color="action" fontSize="small" sx={{ mr: 1 }} /> }}
+                />
+                <FormControl size="small" sx={{ minWidth: 150 }}>
+                  <InputLabel>All Deparments</InputLabel>
+                  <Select label="All Departments" value="">
+                    <MenuItem value="">None</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              {/* WorkerTable removed for debugging */}
+              <Typography>Worker Table temporarily disabled for debugging</Typography>
+            </>
+          )}
+          {tabValue === 1 && <Typography p={4} align="center" color="text.secondary">Schedule View Placeholder - Drag and drop shift management would go here.</Typography>}
+          {tabValue === 2 && <Typography p={4} align="center" color="text.secondary">Performance Logs Placeholder - Detailed reviews and disciplinary actions.</Typography>}
+        </Box>
+      </Card>
+    </Box>
+  );
+};
+
+export default LaborManagement;
