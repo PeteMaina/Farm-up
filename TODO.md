@@ -1,40 +1,71 @@
-- [x] Improve responsiveness: Adjusted Grid container spacing to 2, made social login Stack direction responsive (column on xs, row on sm+), and reduced padding on mobile (p: { xs: 3, sm: 4 }).
-- [x] Clean up design: Reduced excessive padding (elevation 12 to 8, borderRadius 4 to 3), improved spacing (form mb 4 to 3, social mb 4 to 3), simplified social login by removing Apple button, and ensured consistent border radius and shadows using theme.
-- [x] Fix rendering issues: Ensured proper use of Material-UI components, removed unnecessary Apple button, and optimized layout for better visual hierarchy.
+# Full-Stack Integration TODO List (60 Tasks)
 
-Create a backend and its weather API comes from google deepmind's WeatherNext2
+## Phase 1: Environment & Foundation
+1. [x] Delete all contents of the existing `backend` folder.
+2. [x] Initialize a new Python virtual environment in the `backend` directory.
+3. [x] Create a `requirements.txt` with FastAPI, Uvicorn, SQLAlchemy, Pydantic, and python-jose.
+4. [x] Install backend dependencies.
+...
+8. [x] Implement a global error handler for the backend.
+...
+10. [x] Initialize Alembic for database migrations. (Handled via manual SQLModel init)
 
-## Weather API Implementation Progress
+## Phase 2: User Authentication & Profile
+11. [x] Define User model with hashing support (PassLib).
+12. [x] Create User schemas for signup and login.
+13. [x] Implement User signup endpoint.
+14. [x] Implement JWT token generation logic.
+15. [x] Implement User login endpoint returning Access Token.
+16. [x] Build dependency for protecting routes (JWT verification).
+17. [x] Implement `/users/me` endpoint to fetch current user profile.
+18. [x] Create database seed script for initial dummy users.
+19. [ ] Implement user profile update endpoint.
+20. [ ] Implement password reset request logic (mock).
 
-### Backend Setup
-- [x] Create backend directory structure
-- [x] Set up Express.js server with CORS support
-- [x] Create weather API endpoint (/api/weather)
-- [x] Add mock weather data for development
-- [ ] Install backend dependencies (Node.js required)
-- [ ] Start backend server on port 5000
-- [ ] Replace mock data with actual Google DeepMind WeatherNext2 API integration
+## Phase 3: Dashboard & Core Data APIs
+21. [x] Define models for `CropData`, `SoilData`, and `IrrigationLogs`.
+22. [x] Create schemas for dashboard analytics.
+23. [x] Implement GET endpoint for Crop Analytics.
+24. [x] Implement GET endpoint for Soil Management data.
+25. [x] Implement GET endpoint for Irrigation Control status.
+26. [ ] Implement POST endpoint to update Soil data from frontend.
+27. [x] Define `FinancialReport` model.
+28. [x] Implement GET endpoint for Financial Reports.
+29. [ ] Define `LaborManagement` model and schemas.
+30. [ ] Implement CRUD operations for Labor records.
 
-### Frontend Integration
-- [x] Update WeatherInsights component to fetch data from backend API
-- [x] Add loading states and error handling
-- [x] Display 4-day weather forecast
-- [x] Update Dashboard component to use real weather data for temperature and humidity
-- [x] Integrate weather data into real-time environmental sensors
-- [x] Update weather forecast display in Dashboard
-- [x] Integrate weather data into IrrigationControl component for smart irrigation recommendations
-- [x] Add weather-based irrigation logic (reduce watering for rain, increase for heat)
-- [x] Integrate weather data into YieldPrediction component for dynamic yield forecasting
-- [x] Add weather impact calculations for temperature, humidity, and precipitation effects on crop yields
-- [x] Update yield confidence levels based on weather conditions
+## Phase 4: Extended System Features
+31. [x] Define `PestControl` and `Equipment` models.
+32. [x] Implement API for Pest Control tracking.
+33. [x] Implement API for Farm Equipment inventory.
+34. [ ] Create endpoint for `HelpSupport` ticket submission.
+35. [x] Define `MarketPrices` model to store historical price data.
+36. [x] Implement API for Market Prices fetching.
+37. [ ] Set up background tasks for simulated IoT sensor updates.
+38. [ ] Create API for fetching real-time Alerts and Activity.
+39. [ ] Implement search functionality across different modules.
+40. [ ] Add data export endpoints (JSON/CSV mock).
 
-### Next Steps
-- [ ] Install Node.js and npm on the system
-- [ ] Run `npm install` in backend directory
-- [ ] Start backend server with `npm start`
-- [ ] Test weather data fetching in all components (WeatherInsights, Dashboard, IrrigationControl, YieldPrediction)
-- [ ] Integrate actual Google DeepMind WeatherNext2 API (requires API key and access)
-- [ ] Add location-based weather data using coordinates from locationUtils
-- [ ] Implement weather alerts and notifications based on forecast data
-- [ ] Add weather data caching for better performance
-- [ ] Consider integrating weather data into other components (CropAnalytics, PestControl, etc.)
+## Phase 5: Frontend Refactoring (API Integration)
+41. [x] Install `axios` in the frontend project.
+42. [x] Create an `api.js` service layer in the frontend.
+43. [x] Configure axios interceptors for JWT token handling.
+44. [x] Refactor AuthPage to use backend login/signup.
+45. [x] Update Dashboard component to fetch real analytics data.
+46. [x] Replace CropAnalytics hardcoded state with API-driven data.
+47. [x] Integrate SoilManagement component with backend endpoints.
+48. [x] Update IrrigationControl to send/receive real-time commands.
+49. [x] Refactor FertilizerPlanner to use dynamic calculations from backend.
+50. [x] Update PestControl and FarmEquipment lists to fetch from API.
+
+## Phase 6: Syncing & Polishing
+51. [x] Implement global notification state for API errors.
+52. [x] Replace all `alert()` calls with the custom notification system.
+53. [x] Sync user settings (Dark Mode, Currency) with backend profile.
+54. [x] Implement optimistic UI updates for soil/irrigation changes.
+55. [x] Add loading skeletons/spinners for all data-fetching components.
+56. [x] Ensure responsive design across all new integrated components.
+57. [x] Conduct a full systemic test of the frontend-backend handshake.
+58. [x] Finalize the Backend `README.md` with hosting instructions.
+59. [x] Prepare scripts for separate backend/frontend repo deployment.
+60. [x] Perform a final code cleanup and logic verification.

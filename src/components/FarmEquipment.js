@@ -24,15 +24,26 @@ import {
   Add
 } from '@mui/icons-material';
 import { useNotification } from '../context/NotificationContext';
+import { extendedService } from '../services/api';
 
 const FarmEquipment = () => {
   const { showNotification } = useNotification();
-  const equipment = [
-    { name: 'John Deere Tractor', status: 'Operational', maintenance: 'Due in 45 days', location: 'Barn A', type: 'Tractor' },
-    { name: 'Irrigation Pump', status: 'Maintenance Required', maintenance: 'Overdue', location: 'Field B', type: 'Irrigation' },
-    { name: 'Harvester', status: 'Operational', maintenance: 'Due in 120 days', location: 'Equipment Shed', type: 'Harvester' },
-    { name: 'Seeder', status: 'Out of Service', maintenance: 'Scheduled for tomorrow', location: 'Workshop', type: 'Seeder' },
-  ];
+  const [loading, setLoading] = React.useState(true);
+  const [equipment, setEquipment] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchEquipment = async () => {
+      try {
+        const data = await extendedService.getEquipment();
+        setEquipment(data);
+      } catch (error) {
+        console.error('Error fetching equipment:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEquipment();
+  }, []);
 
   const getStatusColor = (status) => {
     switch (status) {

@@ -52,12 +52,31 @@ const cropNutrientsInfo = {
 
 import { useLocalization } from '../context/LocalizationContext';
 import { useNotification } from '../context/NotificationContext';
+import { dashboardService } from '../services/api';
 
 const SoilManagement = ({ location, cropType = 'default' }) => {
   const { getUnitLabel, convertUnit } = useLocalization();
   const { showNotification } = useNotification();
   const theme = useTheme();
   const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const [loading, setLoading] = React.useState(true);
+  const [soilData, setSoilData] = React.useState(null);
+
+  React.useEffect(() => {
+    const fetchSoil = async () => {
+      try {
+        const data = await dashboardService.getSoil();
+        if (data && data.length > 0) {
+          setSoilData(data[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching soil data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSoil();
+  }, []);
 
   // Sample dynamic data
   const nutrients = cropNutrientsInfo[cropType] || cropNutrientsInfo.default;

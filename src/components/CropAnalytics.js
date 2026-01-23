@@ -54,13 +54,30 @@ import {
   Search,
   Add,
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import { useNotification } from '../context/NotificationContext';
+import { dashboardService } from '../services/api';
 
 const CropAnalytics = () => {
   const [tabValue, setTabValue] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [crops, setCrops] = useState([]);
   const { showNotification } = useNotification();
   const theme = useTheme();
+
+  React.useEffect(() => {
+    const fetchCrops = async () => {
+      try {
+        const data = await dashboardService.getCrops();
+        setCrops(data);
+      } catch (error) {
+        console.error('Error fetching crops:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCrops();
+  }, []);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);

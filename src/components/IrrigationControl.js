@@ -53,6 +53,22 @@ const IrrigationControl = ({ location, cropType = 'default' }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isCycling, setIsCycling] = useState(false);
+  const [summary, setSummary] = useState(null);
+
+  // Fetch dashboard summary for irrigation specific data
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        const data = await dashboardService.getSummary();
+        if (data.irrigation && data.irrigation.length > 0) {
+          setSummary(data.irrigation[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching irrigation summary:', error);
+      }
+    };
+    fetchSummary();
+  }, []);
 
   const handleStartCycle = () => {
     setIsCycling(true);

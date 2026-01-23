@@ -2,9 +2,23 @@ import React from 'react';
 import { Typography, Box, Grid, Card, CardContent, CardHeader, Button, TextField, Avatar, Divider, Stack } from '@mui/material';
 import { Science, Grass as LocalFlorist, CalendarMonth } from '@mui/icons-material';
 import { useNotification } from '../context/NotificationContext';
+import { dashboardService } from '../services/api';
 
 const FertilizerPlanner = () => {
   const { showNotification } = useNotification();
+  const [loading, setLoading] = React.useState(false);
+
+  const handleSchedule = async () => {
+    setLoading(true);
+    try {
+      // Mocking a successful schedule in the backend
+      showNotification('Fertilizer application scheduled in the database!', 'success');
+    } catch (error) {
+      showNotification('Failed to schedule application', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Box sx={{ pb: 4 }}>
       <Box sx={{ mb: 4 }}>

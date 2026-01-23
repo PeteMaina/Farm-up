@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography, Button, Stack, Container, Grid } from '@mui/material';
 import { Download, CalendarMonth } from '@mui/icons-material';
 import { useNotification } from '../context/NotificationContext';
+import { extendedService } from '../services/api';
 import FinancialOverview from './financials/FinancialOverview';
 import RevenueChart from './financials/RevenueChart';
 import ExpenseBreakdown from './financials/ExpenseBreakdown';
@@ -9,6 +10,22 @@ import TransactionHistory from './financials/TransactionHistory';
 
 const FinancialReports = () => {
   const { showNotification } = useNotification();
+  const [loading, setLoading] = React.useState(true);
+  const [financials, setFinancials] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchFinancials = async () => {
+      try {
+        const data = await extendedService.getFinancials();
+        setFinancials(data);
+      } catch (error) {
+        console.error('Error fetching financials:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFinancials();
+  }, []);
 
   const handleExport = () => {
     showNotification('Exporting financial report...', 'info');

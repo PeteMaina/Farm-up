@@ -30,6 +30,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useNotification } from '../context/NotificationContext';
+import { authService } from '../services/api';
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -82,12 +83,27 @@ const AuthPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // For now, just navigate to dashboard
-      showNotification(isSignUp ? 'Account created successfully!' : 'Welcome back!', 'success');
-      navigate('/dashboard');
+      try {
+        if (isSignUp) {
+          await authService.signup({
+            email: formData.email,
+            password: formData.password,
+            full_name: `${formData.firstName} ${formData.lastName}`,
+          });
+          showNotification('Account created successfully! Please sign in.', 'success');
+          setIsSignUp(false);
+        } else {
+          await authService.login(formData.email, formData.password);
+          showNotification('Welcome back!', 'success');
+          navigate('/dashboard');
+        }
+      } catch (error) {
+        const message = error.response?.data?.detail || 'An error occurred. Please try again.';
+        showNotification(message, 'error');
+      }
     }
   };
 

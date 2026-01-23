@@ -13,6 +13,7 @@ import {
   Divider,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { dashboardService } from '../services/api';
 
 // Import all dashboard widgets
 import WeatherWidget from './dashboard/WeatherWidget';
@@ -32,6 +33,8 @@ const Dashboard = ({
   onSetLocation,
 }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [summaryData, setSummaryData] = useState(null);
 
   // Real-time sensor data state
   const [realTimeData, setRealTimeData] = useState({
@@ -63,6 +66,31 @@ const Dashboard = ({
 
     fetchWeatherData();
   }, [location]);
+
+  // Fetch dashboard summary from backend
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        setLoading(true);
+        const data = await dashboardService.getSummary();
+        setSummaryData(data);
+
+        // If we have sensor data, update realTimeData
+        if (data.crops && data.crops.length > 0) {
+          setRealTimeData(prev => ({
+            ...prev,
+            soilMoisture: data.crops[0].moisture_level
+          }));
+        }
+      } catch (error) {
+        console.error('Error fetching dashboard summary:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSummary();
+  }, []);
 
   // Simulate real-time data updates for non-weather sensors
   useEffect(() => {
