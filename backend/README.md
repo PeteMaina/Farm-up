@@ -11,7 +11,7 @@ This is the Python-based backend for the Agrowise full-stack system. It provides
 - **Security**: JWT (python-jose)
 
 ## Getting Started
-
+ py
 ### Prerequisites
 - Python 3.10 or higher
 - `pip` (Python package manager)
