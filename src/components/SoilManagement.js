@@ -18,6 +18,9 @@ import {
   Avatar
 } from '@mui/material';
 import { Grass, Science, Opacity, Nature, Spa } from '@mui/icons-material';
+import { useLocalization } from '../context/LocalizationContext';
+import { useNotification } from '../context/NotificationContext';
+import { dashboardService } from '../services/api';
 
 const cropNutrientsInfo = {
   corn: {
@@ -49,10 +52,6 @@ const cropNutrientsInfo = {
     potassium: 'Medium',
   },
 };
-
-import { useLocalization } from '../context/LocalizationContext';
-import { useNotification } from '../context/NotificationContext';
-import { dashboardService } from '../services/api';
 
 const SoilManagement = ({ location, cropType = 'default' }) => {
   const { getUnitLabel, convertUnit } = useLocalization();

@@ -23,6 +23,7 @@ import {
 } from '@mui/material';
 import { Opacity as WaterDrop, PlayArrow, Stop, WbSunny, Cloud, Thunderstorm } from '@mui/icons-material';
 import { useNotification } from '../context/NotificationContext';
+import { dashboardService } from '../services/api';
 
 const irrigationSystemsInfo = {
   drip: {

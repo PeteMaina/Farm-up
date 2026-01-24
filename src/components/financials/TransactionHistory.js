@@ -16,6 +16,7 @@ import {
     InputAdornment
 } from '@mui/material';
 import { Search, Receipt } from '@mui/icons-material';
+import { useLocalization } from '../../context/LocalizationContext';
 
 const transactions = [
     { id: 'TRX-9801', date: '2026-10-24', recipient: 'AgriCorp Ltd', description: 'Corn Shipment Q3', amount: 12500.00, type: 'credit', status: 'Completed', category: 'Sales' },
@@ -25,7 +26,7 @@ const transactions = [
     { id: 'TRX-9805', date: '2026-10-20', recipient: 'Seed Co.', description: 'Spring Wheat Seeds', amount: 2800.75, type: 'debit', status: 'Completed', category: 'Supplies' },
 ];
 
-import { useLocalization } from '../../context/LocalizationContext';
+
 
 
 
