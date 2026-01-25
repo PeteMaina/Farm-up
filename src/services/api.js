@@ -39,7 +39,7 @@ export const authService = {
         return response.data;
     },
     signup: async (userData) => {
-        const response = await api.post('/signup', userData);
+        const response = await api.post('/users/signup', userData);
         return response.data;
     },
     logout: () => {
