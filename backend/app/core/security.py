@@ -1,6 +1,18 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any, Union
 from jose import jwt
+import bcrypt
+
+# Monkeypatch bcrypt to work with passlib
+# See: https://github.com/pyca/bcrypt/issues/684
+if not hasattr(bcrypt, "__about__"):
+    try:
+        from collections import namedtuple
+        Version = namedtuple("Version", ["__version__"])
+        bcrypt.__about__ = Version(bcrypt.__version__)
+    except ImportError:
+        pass
+
 from passlib.context import CryptContext
 from app.core.config import settings
 
