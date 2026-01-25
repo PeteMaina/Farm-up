@@ -38,6 +38,7 @@ const AuthPage = () => {
   const theme = useTheme();
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -131,10 +132,11 @@ const AuthPage = () => {
         <Paper
           elevation={4}
           sx={{
-            p: { xs: 3, sm: 5 },
+            p: { xs: 3, sm: 4, md: 5 },
             borderRadius: 4,
-            background: theme.palette.mode === 'dark' ? 'rgba(30,30,30,0.9)' : 'rgba(255,255,255,0.9)',
-            backdropFilter: 'blur(10px)',
+            background: theme.palette.mode === 'dark' ? 'rgba(30,30,30,0.95)' : 'rgba(255,255,255,0.95)',
+            backdropFilter: 'blur(20px)',
+            width: '100%',
           }}
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
@@ -258,11 +260,23 @@ const AuthPage = () => {
                     fullWidth
                     label="Confirm Password"
                     name="confirmPassword"
-                    type="password"
+                    type={showConfirmPassword ? 'text' : 'password'}
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
                     error={!!errors.confirmPassword}
                     helperText={errors.confirmPassword}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            edge="end"
+                          >
+                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
               )}
