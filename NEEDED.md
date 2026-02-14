@@ -75,5 +75,4 @@ To transform Agrowise into a "Grandmaster" tier application, the following APIs,
 3. Replace hardcoded API keys/URLs with `.env` management across both stacks.
 4. Implement a global `LoadingOverlay` for all async operations to prevent UI flickering.
 
----
-*Created by Antigravity for Agrowise Excellence.*
+
