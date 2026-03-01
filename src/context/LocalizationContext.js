@@ -55,6 +55,7 @@ export const LocalizationProvider = ({ children }) => {
         };
 
         fetchLocalization();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const updatePreference = (newPrefs) => {

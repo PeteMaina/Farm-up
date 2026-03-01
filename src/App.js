@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -25,15 +25,14 @@ import Settings from './components/Settings';
 import HelpSupport from './components/HelpSupport';
 import NotFound from './components/NotFound';
 
-import { getIPLocation, getPreferredLocation } from './utils/locationUtils';
+// Location utils removed as they were unused
 
 import { LocalizationProvider } from './context/LocalizationContext';
 import { NotificationProvider } from './context/NotificationContext';
 import Notification from './components/Notification';
 
 function App() {
-  const [userLocation, setUserLocation] = useState('');
-  const [locationDetails, setLocationDetails] = useState(null);
+  // userLocation and setLocationDetails removed as they were unused
   const [cropType, setCropType] = useState('corn');
   const [themeMode, setThemeMode] = useState(() => {
     return localStorage.getItem('themeMode') || 'light';
