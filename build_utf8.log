@@ -1,0 +1,23 @@
+﻿
+> agrowise@0.1.0 build
+> react-scripts build
+
+Creating an optimized production build...
+Failed to compile.
+
+[eslint] 
+src\components\Settings.js
+  Line 320:66:  'formatCurrency' is not defined  no-undef
+  Line 326:60:  'formatCurrency' is not defined  no-undef
+  Line 327:58:  'formatCurrency' is not defined  no-undef
+
+src\components\SoilManagement.js
+  Line 53:1:  Import in body of module; reorder to top  import/first
+  Line 54:1:  Import in body of module; reorder to top  import/first
+
+src\components\financials\TransactionHistory.js
+  Line 28:1:  Import in body of module; reorder to top  import/first
+
+Search for the keywords to learn more about each error.
+
+
