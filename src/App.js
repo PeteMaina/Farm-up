@@ -54,8 +54,9 @@ function App() {
   };
 
   const handleSetUserLocation = (location) => {
-    setUserLocation(location);
-  };
+  const handleSetUserLocation = (location) => {
+    setLocationDetails(location);
+};
 
   const handleSetCropType = (type) => {
     setCropType(type);
